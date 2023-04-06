@@ -11,6 +11,8 @@ import android.os.Handler;
 import com.google.android.gms.auth.api.identity.BeginSignInRequest;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class SplashScreen extends AppCompatActivity {
 
@@ -22,22 +24,20 @@ public class SplashScreen extends AppCompatActivity {
         setContentView(R.layout.activity_splash_screen);
 
 
-        settingUpDatabase();
+
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser!= null) {
+            // User is already signed in, do something here
+            startActivity(new Intent(SplashScreen.this, MainActivity.class));
+            finish();
+        }
+        else {
+            // User is not signed in, show login/signup screen
+            startActivity(new Intent(SplashScreen.this, LoginActivity.class));
+            finish();
+        }
 
 
-  /*      signInRequest = BeginSignInRequest.builder()
-                .setGoogleIdTokenRequestOptions(BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
-                        .setSupported(true)
-                        // Your server's client ID, not your Android client ID.
-                        .setServerClientId(getString(R.string.app_name))
-                        // Only show accounts previously used to sign in.
-                        .setFilterByAuthorizedAccounts(true)
-                        .build())
-                .build();
-        */
-
-        
-        
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -50,9 +50,6 @@ public class SplashScreen extends AppCompatActivity {
         },2000);
     }
 
-    private void settingUpDatabase() {
-        
-    }
 }
 
 //* new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
