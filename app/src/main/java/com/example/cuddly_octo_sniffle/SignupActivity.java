@@ -3,6 +3,7 @@ package com.example.cuddly_octo_sniffle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
@@ -17,6 +18,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 public class SignupActivity extends AppCompatActivity {
 
@@ -87,10 +89,22 @@ public class SignupActivity extends AppCompatActivity {
                                     // Sign up success,
                                     // update UI with the signed-in user's information
                                     FirebaseUser user = firebaseAuth.getCurrentUser();
+
+                                    UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder()
+                                            .setDisplayName(username)
+                                            .build();
+
+                                    assert user != null;
+                                    user.updateProfile(profileChangeRequest);
+
                                     // do something with the signed-in user's information
+                                    Intent i = new Intent(SignupActivity.this,
+                                            LoginActivity.class);
+                                    startActivity(i);
                                 } else {
                                     Toast.makeText(SignupActivity.this,
-                                            "Authentication failed", Toast.LENGTH_SHORT).show();
+                                            "Authentication failed",
+                                            Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });

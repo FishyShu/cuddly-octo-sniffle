@@ -8,6 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.common.SignInButton;
+
+import java.util.Objects;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link GoogleLoginFragment#newInstance} factory method to
@@ -54,6 +58,9 @@ public class GoogleLoginFragment extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+
+
+
         }
     }
 
@@ -62,5 +69,7 @@ public class GoogleLoginFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_google_login, container, false);
+
+
     }
 }

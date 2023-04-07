@@ -5,11 +5,13 @@ import static android.content.ContentValues.TAG;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -17,14 +19,19 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.core.Tag;
 
+import java.util.Objects;
+
 public class MainActivity extends AppCompatActivity {
 
     Button btn_bMain, btn_bShop, btn_bSports_hall, btn_bMagal, btn_bGoren,btn_bMorag, btn_bKatzir, btn_bAlomot,btn_bKama, btn_bOmarim;
+
+    Button btn_login_test01;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
 
 
@@ -61,6 +68,23 @@ public class MainActivity extends AppCompatActivity {
         askingButton();
 
         buttonGotClicked();
+
+
+        btn_login_test01 =  findViewById(R.id.btn_login_test01);
+
+        // the following code is to check if the user is logged in, if true; show name.
+        btn_login_test01.setText("Test: " +
+                Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getDisplayName());
+        btn_login_test01.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // signOut the user from the Google account or the general account
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
     private void buttonGotClicked() {
