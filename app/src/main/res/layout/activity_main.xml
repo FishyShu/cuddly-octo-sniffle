@@ -40,7 +40,7 @@
         android:id="@+id/btn_bSports_hall"
         android:layout_width="105dp"
         android:layout_height="111dp"
-        android:text="Button"
+        android:text="sports hall"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.987"

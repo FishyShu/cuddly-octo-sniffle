@@ -90,7 +90,8 @@ public class SignupActivity extends AppCompatActivity {
                                     // update UI with the signed-in user's information
                                     FirebaseUser user = firebaseAuth.getCurrentUser();
 
-                                    UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder()
+                                    UserProfileChangeRequest profileChangeRequest
+                                            = new UserProfileChangeRequest.Builder()
                                             .setDisplayName(username)
                                             .build();
 

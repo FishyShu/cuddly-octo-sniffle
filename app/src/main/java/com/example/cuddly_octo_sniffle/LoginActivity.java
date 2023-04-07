@@ -45,16 +45,22 @@ public class LoginActivity extends AppCompatActivity {
 
 
                 firebaseAuth.signInWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                        .addOnCompleteListener(LoginActivity.this,
+                                new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     // Login successful, do something here
-                                    Toast.makeText(LoginActivity.this, "Login succeeded", Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                    Toast.makeText(LoginActivity.this,
+                                            "Login succeeded",
+                                            Toast.LENGTH_SHORT).show();
+                                    startActivity(new Intent(LoginActivity.this,
+                                            MainActivity.class));
                                 } else {
                                     // Login failed, show error message
-                                    Toast.makeText(LoginActivity.this, "Login failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(LoginActivity.this,
+                                            "Login failed: " + task.getException().
+                                                    getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
