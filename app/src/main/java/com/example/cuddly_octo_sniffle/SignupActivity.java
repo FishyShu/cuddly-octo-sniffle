@@ -19,6 +19,10 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.Objects;
 
 public class SignupActivity extends AppCompatActivity {
 
@@ -101,6 +105,8 @@ public class SignupActivity extends AppCompatActivity {
                                     // do something with the signed-in user's information
                                     Intent i = new Intent(SignupActivity.this,
                                             LoginActivity.class);
+
+                                   // writeNewUser(user);
                                     startActivity(i);
                                 } else {
                                     Toast.makeText(SignupActivity.this,
@@ -108,7 +114,17 @@ public class SignupActivity extends AppCompatActivity {
                                             Toast.LENGTH_SHORT).show();
                                 }
                             }
-                        });
+
+                                  /*  private void writeNewUser(FirebaseUser user) {
+                                        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+                                        mDatabase.child("users").child(
+                                                Objects.requireNonNull(user.getEmail()));
+                                        mDatabase.child("users").child(
+                                                Objects.requireNonNull(user.getEmail())).child(
+                                                        "username").setValue(username);
+
+                                    } */
+                                });
 
             }
         });

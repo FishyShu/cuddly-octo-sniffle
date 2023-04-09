@@ -1,6 +1,6 @@
 package com.example.cuddly_octo_sniffle;
 
-
+// ?????? What is this class?
 //Class of Room, room has id, name, status
 public class Room {
     private int id;

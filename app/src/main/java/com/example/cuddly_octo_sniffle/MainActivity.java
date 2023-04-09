@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.cuddly_octo_sniffle.data.Building_Information;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -19,6 +20,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.core.Tag;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
@@ -26,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     Button btn_bMain, btn_bShop, btn_bSports_hall, btn_bMagal, btn_bGoren,btn_bMorag, btn_bKatzir, btn_bAlomot,btn_bKama, btn_bOmarim;
 
     Button btn_login_test01;
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-
+        realTimeDatabaseInitialization();
 
         // Write a message to the database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -163,5 +167,31 @@ public class MainActivity extends AppCompatActivity {
         btn_bAlomot = (Button) findViewById(R.id.btn_bAlomot);
         btn_bKama = (Button) findViewById(R.id.btn_bKama);
         btn_bOmarim = (Button) findViewById(R.id.btn_bOmarim);
+    }
+
+    private void realTimeDatabaseInitialization() {
+        // Get a reference to the buildings node
+        DatabaseReference buildingRef = database.getReference("building");
+
+        // Retrieve the buildings data and display it in a RecyclerView or other view
+        buildingRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                List<Building_Information> building_informationList = new ArrayList<>();
+                for ( DataSnapshot buildingSnapshot : snapshot.getChildren() ) {
+                    Building_Information building = buildingSnapshot.getValue(Building_Information.class);
+                    building_informationList.add(building);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+                Log.d(TAG, "Error retrieving buildings data: " + error.getMessage());
+
+            }
+        });
+
+
     }
 }
