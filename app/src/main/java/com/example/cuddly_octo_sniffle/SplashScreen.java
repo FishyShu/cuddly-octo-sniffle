@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.widget.TextView;
-import android.util.Log;
 
 
 
@@ -43,27 +42,22 @@ public class SplashScreen extends AppCompatActivity {
         setContentView(R.layout.activity_splash_screen);
 
         FirebaseApp.initializeApp(SplashScreen.this);
-        // = FirebaseAuth.getInstance();
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
-       // TextView tv_splashscreen_title = findViewById(R.id.tv_splashscreen_title);
 
 
 
         Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (currentUser!= null) {
-                    // User is already signed in, do something here
-                    startActivity(new Intent(SplashScreen.this, MainActivity.class));
-                    finish();
-                }
-                else {
-                    // User is not signed in, show login/signup screen
-                    startActivity(new Intent(SplashScreen.this, LoginActivity.class));
-                    finish();
-                }
+        handler.postDelayed(() -> {
+            if (currentUser!= null) {
+                // User is already signed in, do something here
+                startActivity(new Intent(SplashScreen.this, MainActivity.class));
+                finish();
+            }
+            else {
+                // User is not signed in, show login/signup screen
+                startActivity(new Intent(SplashScreen.this, LoginActivity.class));
+                finish();
             }
         },2000);
     }

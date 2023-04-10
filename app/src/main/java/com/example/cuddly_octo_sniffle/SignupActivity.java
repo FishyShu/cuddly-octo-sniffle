@@ -19,16 +19,15 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.Objects;
 
 public class SignupActivity extends AppCompatActivity {
 
-    TextView tv_signup_title;
-    EditText ed_signup_username, ed_signup_email, ed_signup_password, ed_signup_confirm_password;
-    Button btn_signup_submit;
+    TextView tvSignupTitle;
+    EditText edSignupUsername;
+    EditText edSignupEmail;
+    EditText edSignupPassword;
+    EditText edSignupConfirmPassword;
+    Button btnSignupSubmit;
     FirebaseAuth firebaseAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,56 +38,59 @@ public class SignupActivity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-        btn_signup_submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String username = ed_signup_username.getText().toString().trim();
-                String email = ed_signup_email.getText().toString().trim();
-                String password = ed_signup_password.getText().toString().trim();
-                String confirm_password = ed_signup_confirm_password.getText().toString().trim();
+        btnSignupSubmit.setOnClickListener(this::onClick);
+    }
 
-                if (TextUtils.isEmpty(username)) {
-                    ed_signup_username.setError("Please enter a username");
-                    ed_signup_username.requestFocus();
-                    return;
-                }
+    private void findTheViews() {
+        tvSignupTitle = findViewById(R.id.tv_signup_title);
+        edSignupUsername = findViewById(R.id.ed_signup_username);
+        edSignupEmail = findViewById(R.id.ed_signup_email);
+        edSignupPassword = findViewById(R.id.ed_signup_password);
+        edSignupConfirmPassword = findViewById(R.id.ed_signup_confirm_password);
+        btnSignupSubmit = findViewById(R.id.btn_signup_submit);
+    }
 
-                if (TextUtils.isEmpty(email)) {
-                    ed_signup_email.setError("Please enter an email address");
-                    ed_signup_email.requestFocus();
-                    return;
-                }
+    private void onClick(View v) {
+        String username = edSignupUsername.getText().toString().trim();
+        String email = edSignupEmail.getText().toString().trim();
+        String password = edSignupPassword.getText().toString().trim();
+        String confirmPassword = edSignupConfirmPassword.getText().toString().trim();
+
+        if (!TextUtils.isEmpty(username)) {
+            if (TextUtils.isEmpty(email)) {
+                edSignupEmail.setError("Please enter an email address");
+                edSignupEmail.requestFocus();
+                return;
+            }
 
 
-                if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                    ed_signup_email.setError("Please enter a valid email address");
-                    ed_signup_email.requestFocus();
-                    return;
-                }
+            if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                edSignupEmail.setError("Please enter a valid email address");
+                edSignupEmail.requestFocus();
+                return;
+            }
 
-                if (TextUtils.isEmpty(password)) {
-                    ed_signup_password.setError("Please enter a password");
-                    ed_signup_password.requestFocus();
-                    return;
-                }
+            if (TextUtils.isEmpty(password)) {
+                edSignupPassword.setError("Please enter a password");
+                edSignupPassword.requestFocus();
+                return;
+            }
 
-                if (password.length() < 6) {
-                    ed_signup_password.setError("Password must be at least 6 characters long");
-                    ed_signup_password.requestFocus();
-                    return;
-                }
+            if (password.length() < 6) {
+                edSignupPassword.setError("Password must be at least 6 characters long");
+                edSignupPassword.requestFocus();
+                return;
+            }
 
-                if (!password.equals(confirm_password)) {
-                    ed_signup_confirm_password.setError("Passwords do not match");
-                    ed_signup_confirm_password.requestFocus();
-                    return;
-                }
+            if (!password.equals(confirmPassword)) {
+                edSignupConfirmPassword.setError("Passwords do not match");
+                edSignupConfirmPassword.requestFocus();
+                return;
+            }
 
-                firebaseAuth.createUserWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(SignupActivity.this,
-                                new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
+            firebaseAuth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(SignupActivity.this,
+                            task -> {
                                 if (task.isSuccessful()) {
                                     // Sign up success,
                                     // update UI with the signed-in user's information
@@ -106,36 +108,17 @@ public class SignupActivity extends AppCompatActivity {
                                     Intent i = new Intent(SignupActivity.this,
                                             LoginActivity.class);
 
-                                   // writeNewUser(user);
                                     startActivity(i);
                                 } else {
                                     Toast.makeText(SignupActivity.this,
                                             "Authentication failed",
                                             Toast.LENGTH_SHORT).show();
                                 }
-                            }
+                            });
+        } else {
+            edSignupUsername.setError("Please enter a username");
+            edSignupUsername.requestFocus();
+        }
 
-                                  /*  private void writeNewUser(FirebaseUser user) {
-                                        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-                                        mDatabase.child("users").child(
-                                                Objects.requireNonNull(user.getEmail()));
-                                        mDatabase.child("users").child(
-                                                Objects.requireNonNull(user.getEmail())).child(
-                                                        "username").setValue(username);
-
-                                    } */
-                                });
-
-            }
-        });
-    }
-
-    private void findTheViews() {
-        tv_signup_title = findViewById(R.id.tv_signup_title);
-        ed_signup_username = findViewById(R.id.ed_signup_username);
-        ed_signup_email = findViewById(R.id.ed_signup_email);
-        ed_signup_password = findViewById(R.id.ed_signup_password);
-        ed_signup_confirm_password = findViewById(R.id.ed_signup_confirm_password);
-        btn_signup_submit = findViewById(R.id.btn_signup_submit);
     }
 }

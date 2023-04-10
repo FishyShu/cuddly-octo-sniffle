@@ -5,18 +5,18 @@ public class Room_Information {
     public String room_id;
     public String room_name;
     public String room_type;
-    public String room_occurrence_name;
+    public String room_occupant_name;
     public String room_description;
     //public String room_capacity;
 
 
     // Constructor
     public Room_Information(String room_id, String room_name, String room_type,
-                            String room_occurrence_name, String room_description) {
+                            String room_occupant_name, String room_description) {
         this.room_id = room_id;
         this.room_name = room_name;
         this.room_type = room_type;
-        this.room_occurrence_name = room_occurrence_name;
+        this.room_occupant_name = room_occupant_name;
         this.room_description = room_description;
     }
 
@@ -45,12 +45,12 @@ public class Room_Information {
         this.room_type = room_type;
     }
 
-    public String getRoom_occurrence_name() {
-        return room_occurrence_name;
+    public String getRoom_occupant_name() {
+        return room_occupant_name;
     }
 
-    public void setRoom_occurrence_name(String room_occurrence_name) {
-        this.room_occurrence_name = room_occurrence_name;
+    public void setRoom_occupant_name(String room_occupant_name) {
+        this.room_occupant_name = room_occupant_name;
     }
 
     public String getRoom_description() {

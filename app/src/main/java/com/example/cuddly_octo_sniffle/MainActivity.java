@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     Button btn_login_test01;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,8 +41,8 @@ public class MainActivity extends AppCompatActivity {
         realTimeDatabaseInitialization();
 
         // Write a message to the database
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("message");
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = firebaseDatabase.getReference("message");
 
         myRef.setValue("Hello, World!");
 
@@ -79,79 +80,46 @@ public class MainActivity extends AppCompatActivity {
         // the following code is to check if the user is logged in, if true; show name.
         btn_login_test01.setText("Test: " +
                 Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getDisplayName());
-        btn_login_test01.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // signOut the user from the Google account or the general account
-                FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(intent);
-                finish();
-            }
+        btn_login_test01.setOnClickListener(v -> {
+            // signOut the user from the Google account or the general account
+            FirebaseAuth.getInstance().signOut();
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
         });
     }
 
     private void buttonGotClicked() {
 
-        btn_bMain.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
+        btn_bMain.setOnClickListener(v -> {
+            // TODO document why this method is empty
         });
-        btn_bShop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        btn_bShop.setOnClickListener(v -> {
 
-            }
         });
-        btn_bSports_hall.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
+        btn_bSports_hall.setOnClickListener(v -> {
+            // TODO document why this method is empty
         });
 
-        btn_bMagal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        btn_bMagal.setOnClickListener(v -> {
 
-            }
         });
-        btn_bGoren.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        btn_bGoren.setOnClickListener(v -> {
 
-            }
         });
-        btn_bMorag.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        btn_bMorag.setOnClickListener(v -> {
 
-            }
         });
 
-        btn_bKatzir.setOnClickListener(new View.OnClickListener() {
+        btn_bKatzir.setOnClickListener(v -> {
 
-            @Override
-            public void onClick(View v) {
-
-            }
         });
-        btn_bAlomot.setOnClickListener(new View.OnClickListener() {
+        btn_bAlomot.setOnClickListener(v -> {
 
-            @Override
-            public void onClick(View v) {
-
-            }
         });
 
-        btn_bKama.setOnClickListener(new View.OnClickListener() {
+        btn_bKama.setOnClickListener(v -> {
 
-            @Override
-            public void onClick(View v) {
-
-            }
         });
 
     }
@@ -177,10 +145,10 @@ public class MainActivity extends AppCompatActivity {
         buildingRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                List<Building_Information> building_informationList = new ArrayList<>();
+                List<Building_Information> buildingInformationArrayList = new ArrayList<>();
                 for ( DataSnapshot buildingSnapshot : snapshot.getChildren() ) {
                     Building_Information building = buildingSnapshot.getValue(Building_Information.class);
-                    building_informationList.add(building);
+                    buildingInformationArrayList.add(building);
                 }
             }
 
