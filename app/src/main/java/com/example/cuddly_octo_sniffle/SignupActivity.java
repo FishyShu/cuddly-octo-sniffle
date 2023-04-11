@@ -11,6 +11,7 @@ import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,6 +37,8 @@ public class SignupActivity extends AppCompatActivity {
     EditText edSignupEmail;
     EditText edSignupPassword;
     EditText edSignupConfirmPassword;
+
+    CheckBox cbSignupIsTeacher;
     Button btnSignupSubmit;
     FirebaseAuth firebaseAuth;
 
@@ -59,6 +62,7 @@ public class SignupActivity extends AppCompatActivity {
         edSignupPassword = findViewById(R.id.ed_signup_password);
         edSignupConfirmPassword = findViewById(R.id.ed_signup_confirm_password);
         btnSignupSubmit = findViewById(R.id.btn_signup_submit);
+        cbSignupIsTeacher = findViewById(R.id.cb_signup_is_teacher);
     }
 
     private void onClick(View v) {
@@ -66,6 +70,7 @@ public class SignupActivity extends AppCompatActivity {
         String email = edSignupEmail.getText().toString().trim();
         String password = edSignupPassword.getText().toString().trim();
         String confirmPassword = edSignupConfirmPassword.getText().toString().trim();
+        Boolean isTeacher = cbSignupIsTeacher.isChecked();
 
         if (!TextUtils.isEmpty(username)) {
             if (TextUtils.isEmpty(email)) {
@@ -118,7 +123,7 @@ public class SignupActivity extends AppCompatActivity {
                                     // do something with the signed-in user's information
                                     // 11/4: sure thing buddy :)
 
-                                    fireStoreStuff( username,  email);
+                                    fireStoreStuff( username,  email, isTeacher);
 
 
 
@@ -142,12 +147,13 @@ public class SignupActivity extends AppCompatActivity {
 
     }
 
-    private void fireStoreStuff(String username, String email) {
+    private void fireStoreStuff(String username, String email, Boolean isTeacher) {
 
         // FirebaseStore save user's information
         Map< String, Object> fireStoreUser = new HashMap<>();
         fireStoreUser.put("username", username);
         fireStoreUser.put("email", email);
+        fireStoreUser.put("isTeacher", isTeacher);
 
         fireStore.collection("users")
                 .add(fireStoreUser)
