@@ -7,6 +7,8 @@ public class Room_Information {
     public String room_type;
     public String room_occupant_name;
     public String room_description;
+
+    // TODO add the building id that's associated with the room
     //public String room_capacity;
 
 

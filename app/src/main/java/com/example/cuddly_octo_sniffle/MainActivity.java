@@ -8,20 +8,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 
-import com.example.cuddly_octo_sniffle.data.Building_Information;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.database.core.Tag;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
@@ -29,8 +24,10 @@ public class MainActivity extends AppCompatActivity {
     Button btn_bMain, btn_bShop, btn_bSports_hall, btn_bMagal, btn_bGoren,btn_bMorag, btn_bKatzir, btn_bAlomot,btn_bKama, btn_bOmarim;
 
     Button btn_login_test01;
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
 
+    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+
+    FirebaseFirestore fireStore = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,37 +35,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        realTimeDatabaseInitialization();
 
         // Write a message to the database
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = firebaseDatabase.getReference("message");
-
-        myRef.setValue("Hello, World!");
 
 
-        // Read from the database
-
-
-
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                String value = dataSnapshot.getValue(String.class);
-                Log.d(TAG, "Value is: " + value);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-// Failed to read value
-                Log.w(TAG, "Failed to read value.", error.toException());
-            }
-
-
-
-        });
 
         askingButton();
 
@@ -78,11 +48,27 @@ public class MainActivity extends AppCompatActivity {
         btn_login_test01 =  findViewById(R.id.btn_login_test01);
 
         // the following code is to check if the user is logged in, if true; show name.
+
+        /*fireStore.collection("users")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult());
+                        }
+                        else {
+                            Log.w(TAG, "Error getting document.", task.getException());
+                        }
+                    }
+                });
+
+        if()*/
         btn_login_test01.setText("Test: " +
                 Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getDisplayName());
         btn_login_test01.setOnClickListener(v -> {
             // signOut the user from the Google account or the general account
-            FirebaseAuth.getInstance().signOut();
+            firebaseAuth.signOut();
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
             finish();
@@ -137,7 +123,9 @@ public class MainActivity extends AppCompatActivity {
         btn_bOmarim = (Button) findViewById(R.id.btn_bOmarim);
     }
 
-    private void realTimeDatabaseInitialization() {
+
+    // --- THE FOLLOWING IS A MISTAKE, USING REALTIME DATABASE AND NOT FIRESTORE! ----
+    /*private void realTimeDatabaseInitialization() {
         // Get a reference to the buildings node
         DatabaseReference buildingRef = database.getReference("building");
 
@@ -161,5 +149,5 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-    }
+    }*/
 }
