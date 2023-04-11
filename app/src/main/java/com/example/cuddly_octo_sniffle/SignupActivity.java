@@ -1,11 +1,13 @@
 package com.example.cuddly_octo_sniffle;
 
 import androidx.annotation.NonNull;
+import static android.content.ContentValues.TAG;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -14,11 +16,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class SignupActivity extends AppCompatActivity {
 
@@ -29,6 +38,8 @@ public class SignupActivity extends AppCompatActivity {
     EditText edSignupConfirmPassword;
     Button btnSignupSubmit;
     FirebaseAuth firebaseAuth;
+
+    FirebaseFirestore fireStore = FirebaseFirestore.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,7 +106,7 @@ public class SignupActivity extends AppCompatActivity {
                                     // Sign up success,
                                     // update UI with the signed-in user's information
                                     FirebaseUser user = firebaseAuth.getCurrentUser();
-
+                                    // adds the user's name to the authentication
                                     UserProfileChangeRequest profileChangeRequest
                                             = new UserProfileChangeRequest.Builder()
                                             .setDisplayName(username)
@@ -105,6 +116,15 @@ public class SignupActivity extends AppCompatActivity {
                                     user.updateProfile(profileChangeRequest);
 
                                     // do something with the signed-in user's information
+                                    // 11/4: sure thing buddy :)
+
+                                    fireStoreStuff( username,  email);
+
+
+
+
+
+
                                     Intent i = new Intent(SignupActivity.this,
                                             LoginActivity.class);
 
@@ -119,6 +139,36 @@ public class SignupActivity extends AppCompatActivity {
             edSignupUsername.setError("Please enter a username");
             edSignupUsername.requestFocus();
         }
+
+    }
+
+    private void fireStoreStuff(String username, String email) {
+
+        // FirebaseStore save user's information
+        Map< String, Object> fireStoreUser = new HashMap<>();
+        fireStoreUser.put("username", username);
+        fireStoreUser.put("email", email);
+
+        fireStore.collection("users")
+                .add(fireStoreUser)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Log.d(TAG,
+                                "DocumentSnapshot add with an ID: " +
+                                        documentReference.getId());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error adding the document", e);
+                    }
+                });
+
+
+
+
 
     }
 }
