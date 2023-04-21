@@ -75,8 +75,15 @@ public class MainActivity extends AppCompatActivity {
         buttonGotClicked();
 
 
-        spinnerThings("אלומות");
         spinnerThings("עומרים");
+        spinnerThings("קמה");
+        spinnerThings("אלומות");
+        spinnerThings("מורג");
+        spinnerThings("מגל");
+        spinnerThings("גורל");
+        spinnerThings("קציר");
+        spinnerThings("בניין מרכזי");
+
         spinnerThingsBuilding();
 
 
@@ -151,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-            list.add("test" + " " + "test");
+            //list.add("test" + " " + "test");
 
             // Create an ArrayAdapter using the list and a default spinner layout
             ArrayAdapter<String> adapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_spinner_item, list);
