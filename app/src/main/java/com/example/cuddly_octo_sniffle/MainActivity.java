@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.Spinner;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -25,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
 
     Button btn_login_test01;
 
+    Spinner spinner_building, spinner_room;
+
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
     FirebaseFirestore fireStore = FirebaseFirestore.getInstance();
@@ -40,12 +43,32 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+        // TODO: when someone clicks the building spinner show the list of buildings,
+        //  " 600 (Katzir) ", in addition when the user clicks on the building it will select the
+        //  building number which the user clicked!
+        //  When the user clicks / chooses a building, set the list of rooms to include only those within
+        //  the building!
+
+
+        // TODO: Make the bottom navigation bar, with all the fragments of List, Favorites, and settings!
+
+        // TODO: make a teacher / student system, show the occupation system only when the user is a teacher!
+
+
         askingButton();
 
         buttonGotClicked();
 
 
+        spinnerThings();
+
+
         btn_login_test01 =  findViewById(R.id.btn_login_test01);
+
+
+
+
+
 
         // the following code is to check if the user is logged in, if true; show name.
 
@@ -73,6 +96,16 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
+    }
+
+    private void spinnerThings() {
+
+        //TODO Make the spinner system!
+
+
+
+
+
     }
 
     private void buttonGotClicked() {
@@ -121,6 +154,9 @@ public class MainActivity extends AppCompatActivity {
         btn_bAlomot = (Button) findViewById(R.id.btn_bAlomot);
         btn_bKama = (Button) findViewById(R.id.btn_bKama);
         btn_bOmarim = (Button) findViewById(R.id.btn_bOmarim);
+
+        spinner_building = findViewById(R.id.spinner_building);
+        spinner_room = findViewById(R.id.spinner_room);
     }
 
 
