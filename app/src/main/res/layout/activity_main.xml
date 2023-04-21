@@ -180,6 +180,7 @@
         android:id="@+id/spinner_building"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:textAlignment="center"
         android:contentDescription="Choose building"
         android:minHeight="48dp"
         app:layout_constraintBottom_toBottomOf="parent"

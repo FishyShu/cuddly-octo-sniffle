@@ -14,9 +14,12 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -67,7 +70,8 @@ public class MainActivity extends AppCompatActivity {
         buttonGotClicked();
 
 
-        spinnerThings();
+        spinnerThings("אלומות");
+        spinnerThingsBuilding();
 
 
         btn_login_test01 =  findViewById(R.id.btn_login_test01);
@@ -105,7 +109,41 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void spinnerThings() {
+    private void spinnerThingsBuilding() {
+
+
+    }
+
+    private void spinnerThings(String buildingName) {
+
+
+        CollectionReference settingsRef = fireStore.collection("settings");
+        DocumentReference buildingsRef = settingsRef.document("Buildings");
+
+        buildingsRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                String שכבה = documentSnapshot.getString(buildingName +".שכבה");
+                Long מזההLong = documentSnapshot.getLong(buildingName +".מזהה");
+
+                int מזהה = 0;
+                if (מזההLong != null) {
+                    מזהה = מזההLong.intValue();
+                }
+
+                // Add the information to a list
+                List<String> list = new ArrayList<>();
+                list.add(שכבה + " - " + מזהה);
+                list.add("This is a test" + " " + "test");
+
+                // Create an ArrayAdapter using the list and a default spinner layout
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_spinner_item, list);
+
+                // Set the adapter to the spinner
+                spinner_building.setAdapter(adapter);
+            }
+        });
+
 
         //Make the spinner system!
         // Take information from Firebase Firestore and set the information from the building collection
@@ -114,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
 
         // TODO: Change getting from settings collection, and then getting buildings document!
 
-        CollectionReference buildingRef = fireStore.collection("settings");
+       // CollectionReference buildingRef = fireStore.collection("settings");
 
     /*    buildingRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
