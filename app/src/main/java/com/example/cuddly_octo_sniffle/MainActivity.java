@@ -16,6 +16,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,6 +29,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
@@ -45,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
 
     final static String COLLECTION_DATA = "settings";
 
+    CollectionReference settingsRef = fireStore.collection("settings");
+    DocumentReference buildingsRef = settingsRef.document("Buildings");
     List<String> list = new ArrayList<>();
 
     @Override
@@ -126,14 +130,61 @@ public class MainActivity extends AppCompatActivity {
 
         //TODO: show rooms of building item selected within the spinner_building
 
+        spinner_building.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                int buildingPosition = spinner_building.getSelectedItemPosition();
+
+                switch (buildingPosition) {
+                    case 0:
+                        getRoomsForBuilding("אלומות");
+                }
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+                //ERROR
+                Toast.makeText(MainActivity.this,
+                        "Please select a building", Toast.LENGTH_SHORT).show();
+
+
+            }
+        });
+
+
+
 
 
     }
 
+    private void getRoomsForBuilding(String buildingName) {
+        buildingsRef.get().addOnSuccessListener(documentSnapshot -> {
+
+
+            //    List<String> list = new ArrayList<>();
+            ArrayList<String> roomsList = (ArrayList<String>) documentSnapshot.get(buildingName + ".חדרים");
+            // set up adapter for the room spinner with the list of rooms
+            ArrayAdapter<String> roomAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_spinner_item, roomsList);
+            roomAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner_room.setAdapter(roomAdapter);
+
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(TAG, "Error getting document", e);
+            }
+        });
+    }
+
     private void spinnerThings(String buildingName) {
 
-        CollectionReference settingsRef = fireStore.collection("settings");
-        DocumentReference buildingsRef = settingsRef.document("Buildings");
+        // CollectionReference settingsRef = fireStore.collection("settings");
+        // DocumentReference buildingsRef = settingsRef.document("Buildings");
+
 
         buildingsRef.get().addOnSuccessListener(documentSnapshot -> {
             String grade = documentSnapshot.getString(buildingName +".שכבה");
@@ -179,6 +230,8 @@ public class MainActivity extends AppCompatActivity {
     } // spinnerthings end
 
 
+
+
     private void populateSpinner(List<String> buildingsList) {
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, buildingsList);
@@ -189,14 +242,14 @@ public class MainActivity extends AppCompatActivity {
 
     private void buttonGotClicked() {
 
+        // TODO: when click, set item within spinner to match the building.
+
         btn_bMain.setOnClickListener(v -> {
-            // TODO document why this method is empty
         });
         btn_bShop.setOnClickListener(v -> {
 
         });
         btn_bSports_hall.setOnClickListener(v -> {
-            // TODO document why this method is empty
         });
 
         btn_bMagal.setOnClickListener(v -> {
