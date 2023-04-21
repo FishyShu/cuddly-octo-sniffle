@@ -8,16 +8,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
@@ -31,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
     FirebaseFirestore fireStore = FirebaseFirestore.getInstance();
+
+    final static String COLLECTION_DATA = "settings";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,13 +107,43 @@ public class MainActivity extends AppCompatActivity {
 
     private void spinnerThings() {
 
-        //TODO Make the spinner system!
+        //Make the spinner system!
+        // Take information from Firebase Firestore and set the information from the building collection
+        // Get all the buildings names and put them into an the building spinner
 
 
+        // TODO: Change getting from settings collection, and then getting buildings document!
+
+        CollectionReference buildingRef = fireStore.collection("settings");
+
+    /*    buildingRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    List<String> buildingsList = new ArrayList<>();
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        // Get the name field value of each document and add it to the buildingsList
+                        String buildingName = document.getString("name");
+                        buildingsList.add(buildingName);
+
+                    }
+                    populateSpinner(buildingsList);
+                } else
+                    Log.d("MainActivity.java -> spinnerThings", "Error getting the buildings list from Firebase Firestore", task.getException());
+
+            }
+        });
+*/
+    } // spinnerthings end
 
 
+    private void populateSpinner(List<String> buildingsList) {
 
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, buildingsList);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_building.setAdapter(adapter);
     }
+
 
     private void buttonGotClicked() {
 

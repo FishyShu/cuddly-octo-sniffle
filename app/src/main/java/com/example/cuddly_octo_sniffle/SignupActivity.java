@@ -149,32 +149,32 @@ public class SignupActivity extends AppCompatActivity {
 
     private void fireStoreStuff(String username, String email, Boolean isTeacher) {
 
-        // FirebaseStore save user's information
-        Map< String, Object> fireStoreUser = new HashMap<>();
-        fireStoreUser.put("username", username);
-        fireStoreUser.put("email", email);
-        fireStoreUser.put("isTeacher", isTeacher);
+        // Reference to the document "known-users" in the "users" collection
+        DocumentReference docRef = fireStore.collection("users").document("known-users");
 
-        fireStore.collection("users")
-                .add(fireStoreUser)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+        // Replace dot character with underscore character in email
+        String emailKey = email.replace(".", "_");
+        // TODO: when displaying email, do the reverse replace!
+
+
+        // Create a new field to be added to the "users" map
+        Map<String, Object> newUser = new HashMap<>();
+        newUser.put("isTeacher", isTeacher);
+        newUser.put("name", username);
+
+        // Add the new field to the "users" map in the document "known-users"
+        docRef.update("users." + ""+emailKey, newUser)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d(TAG,
-                                "DocumentSnapshot add with an ID: " +
-                                        documentReference.getId());
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "New user field added successfully");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error adding the document", e);
+                        Log.w(TAG, "Error adding new user field", e);
                     }
                 });
-
-
-
-
-
     }
 }
