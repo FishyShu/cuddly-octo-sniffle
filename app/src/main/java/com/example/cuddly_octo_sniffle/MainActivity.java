@@ -139,10 +139,33 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "Changed item", Toast.LENGTH_SHORT).show();
                 int buildingPosition = spinner_building.getSelectedItemPosition();
 
-                if (buildingPosition == 0)
+                switch (buildingPosition) {
+                    case 0:
+                        getRoomsForBuilding("עומרים");
+                        break;
+                    case 1:
+                        getRoomsForBuilding("קמה");
+                        break;
+                    case 2:
                         getRoomsForBuilding("אלומות");
-                if (buildingPosition == 1)
-                    getRoomsForBuilding("קמה");
+                        break;
+                    case 3:
+                        getRoomsForBuilding("מורג");
+                        break;
+                    case 4:
+                        getRoomsForBuilding("מגל");
+                        break;
+                    case 5:
+                        getRoomsForBuilding("גורל");
+                        break;
+                    case 6:
+                        getRoomsForBuilding("קציר");
+                        break;
+                    case 7:
+                        getRoomsForBuilding("בניין מרכזי");
+                        break;
+                    //case default: need to update something to use this, uhh nope..
+                }
 
 
 
@@ -157,13 +180,8 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this,
                         "Please select a building", Toast.LENGTH_SHORT).show();
 
-
             }
         });
-
-
-
-
 
     }
 
@@ -180,6 +198,7 @@ public class MainActivity extends AppCompatActivity {
                             for (Map.Entry<String, Object> entry : roomsMap.entrySet()) {
                                 String roomName = entry.getKey();
                                 String roomValue = (String) entry.getValue();
+                                if (roomValue != null && !roomValue.isEmpty())
                                 roomsList.add(roomValue);
                             }
                             ArrayAdapter<String> roomAdapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_spinner_item, roomsList);
