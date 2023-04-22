@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
         spinnerThings("אלומות");
         spinnerThings("מורג");
         spinnerThings("מגל");
-        spinnerThings("גורל");
+        spinnerThings("גורן");
         spinnerThings("קציר");
         spinnerThings("בניין מרכזי");
 
@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
                         getRoomsForBuilding("מגל");
                         break;
                     case 5:
-                        getRoomsForBuilding("גורל");
+                        getRoomsForBuilding("גורן");
                         break;
                     case 6:
                         getRoomsForBuilding("קציר");
@@ -166,6 +166,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getRoomsForBuilding(String buildingName) {
+        selectedBuilding = buildingName; // saves the building name
         buildingsRef.get().addOnSuccessListener(documentSnapshot -> {
             if (documentSnapshot.exists()) {
                 Map<String, Object> buildingData = documentSnapshot.getData();
@@ -176,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
                         if (roomsMap != null && !roomsMap.isEmpty()) {
                             List<String> roomsList = new ArrayList<>();
                             for (Map.Entry<String, Object> entry : roomsMap.entrySet()) {
-                                selectedRoom = entry.getKey(); // saves the room name
+                                String maxRooms = entry.getKey();
                                 String roomValue = (String) entry.getValue();
                                 if (roomValue != null && !roomValue.isEmpty())
                                     roomsList.add(roomValue);
@@ -197,9 +198,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void spinnerThings(String buildingName) {
-
-        // save the name of the building.
-        selectedBuilding = buildingName;
 
         buildingsRef.get().addOnSuccessListener(documentSnapshot -> {
             String grade = documentSnapshot.getString(buildingName + ".שכבה");
@@ -273,7 +271,7 @@ public class MainActivity extends AppCompatActivity {
 
         btn_occupy.setOnClickListener(v -> {
 
-            //getCurrentSelection();
+            getCurrentSelection();
             // when pressed go to the activity of the schedule view to pick a date.
             startActivity(new Intent(this, ScheduleActivity.class).putExtra("building", selectedBuilding).putExtra("room", selectedRoom));
         });
@@ -281,16 +279,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getCurrentSelection() {
-        // Get the selected building
-        Object selectedBuildingObj = spinner_building.getSelectedItem();
-        if (selectedBuildingObj != null) {
-            selectedBuilding = selectedBuildingObj.toString();
-        }
-
         // Get the selected room
+        // maybe make it less carrying...
         Object selectedRoomObj = spinner_room.getSelectedItem();
         if (selectedRoomObj != null) {
-            selectedRoom = selectedRoomObj.toString();
+            selectedRoom = selectedRoomObj.toString().trim().substring(1);
+            int len = selectedRoom.length();
+            int i = 0;
+            while (i < len && selectedRoom.charAt(i) == '0') {
+                i++;
+            }
+            if (i > 0) {
+                selectedRoom = selectedRoom.substring(i);
+            }
         }
     }
 
@@ -312,30 +313,4 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    // --- THE FOLLOWING IS A MISTAKE, USING REALTIME DATABASE AND NOT FIRESTORE! ----
-    /*private void realTimeDatabaseInitialization() {
-        // Get a reference to the buildings node
-        DatabaseReference buildingRef = database.getReference("building");
-
-        // Retrieve the buildings data and display it in a RecyclerView or other view
-        buildingRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                List<Building_Information> buildingInformationArrayList = new ArrayList<>();
-                for ( DataSnapshot buildingSnapshot : snapshot.getChildren() ) {
-                    Building_Information building = buildingSnapshot.getValue(Building_Information.class);
-                    buildingInformationArrayList.add(building);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-                Log.d(TAG, "Error retrieving buildings data: " + error.getMessage());
-
-            }
-        });
-
-
-    }*/
 }
