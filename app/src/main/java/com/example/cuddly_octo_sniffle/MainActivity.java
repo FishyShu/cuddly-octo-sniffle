@@ -249,6 +249,7 @@ public class MainActivity extends AppCompatActivity {
 
         // TODO: when click, set item within spinner to match the building.
 
+
         btn_bMain.setOnClickListener(v -> {
         });
         btn_bShop.setOnClickListener(v -> {
@@ -276,6 +277,11 @@ public class MainActivity extends AppCompatActivity {
 
         btn_bKama.setOnClickListener(v -> {
 
+        });
+
+        btn_occupy.setOnClickListener(v -> {
+            // when pressed go to the activity of the schedule view to pick a date.
+            startActivity(new Intent(this, ScheduleActivity.class));
         });
 
     }
