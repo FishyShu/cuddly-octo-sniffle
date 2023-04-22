@@ -54,6 +54,10 @@ public class MainActivity extends AppCompatActivity {
     //CollectionReference roomsRef = settingsRef.document("Buildings").collection("");
     List<String> list = new ArrayList<>();
 
+    // create a different way to save the current selected spinner item, if possible!
+    private String selectedBuilding;
+    private String selectedRoom;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,23 +99,6 @@ public class MainActivity extends AppCompatActivity {
         btn_login_test01 = findViewById(R.id.btn_login_test01);
 
 
-        // the following code is to check if the user is logged in, if true; show name.
-
-        /*fireStore.collection("users")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult());
-                        }
-                        else {
-                            Log.w(TAG, "Error getting document.", task.getException());
-                        }
-                    }
-                });
-
-        if()*/
         btn_login_test01.setText(getString(R.string.testUsername) + " " +
                 Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getDisplayName());
         btn_login_test01.setOnClickListener(v -> {
@@ -133,6 +120,8 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "Changed item", Toast.LENGTH_SHORT).show();
                 int buildingPosition = spinner_building.getSelectedItemPosition();
 
+
+                // TODO: Main building doesn't work, fix!
                 switch (buildingPosition) {
                     case 0:
                         getRoomsForBuilding("עומרים");
@@ -187,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
                         if (roomsMap != null && !roomsMap.isEmpty()) {
                             List<String> roomsList = new ArrayList<>();
                             for (Map.Entry<String, Object> entry : roomsMap.entrySet()) {
-                                String roomName = entry.getKey();
+                                selectedRoom = entry.getKey(); // saves the room name
                                 String roomValue = (String) entry.getValue();
                                 if (roomValue != null && !roomValue.isEmpty())
                                     roomsList.add(roomValue);
@@ -208,6 +197,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void spinnerThings(String buildingName) {
+
+        // save the name of the building.
+        selectedBuilding = buildingName;
 
         buildingsRef.get().addOnSuccessListener(documentSnapshot -> {
             String grade = documentSnapshot.getString(buildingName + ".שכבה");
@@ -280,10 +272,26 @@ public class MainActivity extends AppCompatActivity {
         });
 
         btn_occupy.setOnClickListener(v -> {
+
+            //getCurrentSelection();
             // when pressed go to the activity of the schedule view to pick a date.
-            startActivity(new Intent(this, ScheduleActivity.class));
+            startActivity(new Intent(this, ScheduleActivity.class).putExtra("building", selectedBuilding).putExtra("room", selectedRoom));
         });
 
+    }
+
+    private void getCurrentSelection() {
+        // Get the selected building
+        Object selectedBuildingObj = spinner_building.getSelectedItem();
+        if (selectedBuildingObj != null) {
+            selectedBuilding = selectedBuildingObj.toString();
+        }
+
+        // Get the selected room
+        Object selectedRoomObj = spinner_room.getSelectedItem();
+        if (selectedRoomObj != null) {
+            selectedRoom = selectedRoomObj.toString();
+        }
     }
 
     private void askingButton() {
