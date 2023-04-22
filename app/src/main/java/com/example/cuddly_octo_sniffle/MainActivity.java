@@ -28,6 +28,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -49,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
 
     CollectionReference settingsRef = fireStore.collection("settings");
     DocumentReference buildingsRef = settingsRef.document("Buildings");
+
+    //CollectionReference roomsRef = settingsRef.document("Buildings").collection("");
     List<String> list = new ArrayList<>();
 
     @Override
@@ -129,17 +132,20 @@ public class MainActivity extends AppCompatActivity {
     private void spinnerThingsBuilding() {
 
         //TODO: show rooms of building item selected within the spinner_building
-
         spinner_building.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
+                Toast.makeText(MainActivity.this, "Changed item", Toast.LENGTH_SHORT).show();
                 int buildingPosition = spinner_building.getSelectedItemPosition();
 
-                switch (buildingPosition) {
-                    case 0:
+                if (buildingPosition == 0)
                         getRoomsForBuilding("אלומות");
-                }
+                if (buildingPosition == 1)
+                    getRoomsForBuilding("קמה");
+
+
+
 
 
             }
@@ -163,28 +169,35 @@ public class MainActivity extends AppCompatActivity {
 
     private void getRoomsForBuilding(String buildingName) {
         buildingsRef.get().addOnSuccessListener(documentSnapshot -> {
-
-
-            //    List<String> list = new ArrayList<>();
-            ArrayList<String> roomsList = (ArrayList<String>) documentSnapshot.get(buildingName + ".חדרים");
-            // set up adapter for the room spinner with the list of rooms
-            ArrayAdapter<String> roomAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_spinner_item, roomsList);
-            roomAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            spinner_room.setAdapter(roomAdapter);
-
+            if (documentSnapshot.exists()) {
+                Map<String, Object> buildingData = documentSnapshot.getData();
+                if (buildingData != null && buildingData.containsKey(buildingName)) {
+                    Map<String, Object> buildingMap = (Map<String, Object>) buildingData.get(buildingName);
+                    if (buildingMap != null && buildingMap.containsKey("חדרים")) {
+                        Map<String, Object> roomsMap = (Map<String, Object>) buildingMap.get("חדרים");
+                        if (roomsMap != null && !roomsMap.isEmpty()) {
+                            List<String> roomsList = new ArrayList<>();
+                            for (Map.Entry<String, Object> entry : roomsMap.entrySet()) {
+                                String roomName = entry.getKey();
+                                String roomValue = (String) entry.getValue();
+                                roomsList.add(roomValue);
+                            }
+                            ArrayAdapter<String> roomAdapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_spinner_item, roomsList);
+                            roomAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            spinner_room.setAdapter(roomAdapter);
+                        }
+                    }
+                }
+            }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Log.d(TAG, "Error getting document", e);
             }
         });
-    }
+       }
 
     private void spinnerThings(String buildingName) {
-
-        // CollectionReference settingsRef = fireStore.collection("settings");
-        // DocumentReference buildingsRef = settingsRef.document("Buildings");
-
 
         buildingsRef.get().addOnSuccessListener(documentSnapshot -> {
             String grade = documentSnapshot.getString(buildingName +".שכבה");
@@ -194,8 +207,6 @@ public class MainActivity extends AppCompatActivity {
             if (id != null) {
                 intID = id.intValue();
             }
-
-            // Add the information to a list
 
             if (intID != 0) {
                 if (grade != null) {
@@ -207,26 +218,12 @@ public class MainActivity extends AppCompatActivity {
                 list.add(grade);
             }
 
-
-
-            //list.add("test" + " " + "test");
-
             // Create an ArrayAdapter using the list and a default spinner layout
             ArrayAdapter<String> adapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_spinner_item, list);
 
             // Set the adapter to the spinner
             spinner_building.setAdapter(adapter);
         });
-
-
-        //Make the spinner system!
-        // Take information from Firebase Firestore and set the information from the building collection
-        // Get all the buildings names and put them into an the building spinner
-
-
-        // TODO: Change getting from settings collection, and then getting buildings document!
-
-
     } // spinnerthings end
 
 
