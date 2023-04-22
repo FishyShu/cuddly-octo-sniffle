@@ -35,8 +35,8 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button btn_bMain, btn_bShop, btn_bSports_hall, btn_bMagal, btn_bGoren,btn_bMorag, btn_bKatzir,
-            btn_bAlomot,btn_bKama, btn_bOmarim, btn_occupy;
+    Button btn_bMain, btn_bShop, btn_bSports_hall, btn_bMagal, btn_bGoren, btn_bMorag, btn_bKatzir,
+            btn_bAlomot, btn_bKama, btn_bOmarim, btn_occupy;
 
     Button btn_login_test01;
 
@@ -60,9 +60,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-
         // Write a message to the database
-
 
 
         // TODO: when someone clicks the building spinner show the list of buildings,
@@ -94,11 +92,7 @@ public class MainActivity extends AppCompatActivity {
         spinnerThingsBuilding();
 
 
-        btn_login_test01 =  findViewById(R.id.btn_login_test01);
-
-
-
-
+        btn_login_test01 = findViewById(R.id.btn_login_test01);
 
 
         // the following code is to check if the user is logged in, if true; show name.
@@ -118,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
                 });
 
         if()*/
-        btn_login_test01.setText("Test: " +
+        btn_login_test01.setText(getString(R.string.testUsername) + " " +
                 Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getDisplayName());
         btn_login_test01.setOnClickListener(v -> {
             // signOut the user from the Google account or the general account
@@ -168,9 +162,6 @@ public class MainActivity extends AppCompatActivity {
                 }
 
 
-
-
-
             }
 
             @Override
@@ -199,7 +190,7 @@ public class MainActivity extends AppCompatActivity {
                                 String roomName = entry.getKey();
                                 String roomValue = (String) entry.getValue();
                                 if (roomValue != null && !roomValue.isEmpty())
-                                roomsList.add(roomValue);
+                                    roomsList.add(roomValue);
                             }
                             ArrayAdapter<String> roomAdapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_spinner_item, roomsList);
                             roomAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -214,13 +205,13 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "Error getting document", e);
             }
         });
-       }
+    }
 
     private void spinnerThings(String buildingName) {
 
         buildingsRef.get().addOnSuccessListener(documentSnapshot -> {
-            String grade = documentSnapshot.getString(buildingName +".שכבה");
-            Long id = documentSnapshot.getLong(buildingName +".מזהה");
+            String grade = documentSnapshot.getString(buildingName + ".שכבה");
+            Long id = documentSnapshot.getLong(buildingName + ".מזהה");
 
             int intID = 0;
             if (id != null) {
@@ -244,8 +235,6 @@ public class MainActivity extends AppCompatActivity {
             spinner_building.setAdapter(adapter);
         });
     } // spinnerthings end
-
-
 
 
     private void populateSpinner(List<String> buildingsList) {
