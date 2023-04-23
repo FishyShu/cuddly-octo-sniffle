@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.CalendarView;
 import android.widget.TextView;
@@ -70,7 +71,7 @@ public class ScheduleActivity extends AppCompatActivity implements MyRecyclerVie
 
         ArrayList<String> numbers = new ArrayList<>();
 
-        for (int i = 0; i < 10; i++)
+        for (int i = 1; i < 10; i++)
             numbers.add(String.valueOf(i));
 
         // set up the RecyclerView
@@ -89,6 +90,8 @@ public class ScheduleActivity extends AppCompatActivity implements MyRecyclerVie
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
                 layoutManager.getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
+
+
     }
 
 
