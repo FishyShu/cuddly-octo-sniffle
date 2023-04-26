@@ -1,7 +1,9 @@
 package com.example.cuddly_octo_sniffle;
 
 import androidx.annotation.NonNull;
+
 import static android.content.ContentValues.TAG;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -43,6 +45,7 @@ public class SignupActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
 
     FirebaseFirestore fireStore = FirebaseFirestore.getInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -123,11 +126,7 @@ public class SignupActivity extends AppCompatActivity {
                                     // do something with the signed-in user's information
                                     // 11/4: sure thing buddy :)
 
-                                    fireStoreStuff( username,  email, isTeacher);
-
-
-
-
+                                    fireStoreStuff(username, email, isTeacher);
 
 
                                     Intent i = new Intent(SignupActivity.this,
@@ -163,18 +162,8 @@ public class SignupActivity extends AppCompatActivity {
         newUser.put("name", username);
 
         // Add the new field to the "users" map in the document "known-users"
-        docRef.update("users." + ""+emailKey, newUser)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "New user field added successfully");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error adding new user field", e);
-                    }
-                });
+        docRef.update("users." + "" + emailKey, newUser)
+                .addOnSuccessListener(aVoid -> Log.d(TAG, "New user field added successfully"))
+                .addOnFailureListener(e -> Log.w(TAG, "Error adding new user field", e));
     }
 }
