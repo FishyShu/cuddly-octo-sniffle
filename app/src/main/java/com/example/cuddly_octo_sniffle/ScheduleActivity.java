@@ -52,7 +52,6 @@ public class ScheduleActivity extends AppCompatActivity implements MyRecyclerVie
     int selectedMonth = calendar.get(Calendar.MONTH);
     int selectedDayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 
-    ArrayList<Integer> hours = new ArrayList<Integer>();
 
 
     @Override
@@ -68,6 +67,8 @@ public class ScheduleActivity extends AppCompatActivity implements MyRecyclerVie
 
         cvSchedulePicker = findViewById(R.id.cv_schedule_picker);
         tvScheduleTitle = findViewById(R.id.tv_schedule_title);
+
+        ChangeRecyclerViewItems(building, room);
 
 
         cvSchedulePicker.setOnDateChangeListener((view, year, month, dayOfMonth) -> {
