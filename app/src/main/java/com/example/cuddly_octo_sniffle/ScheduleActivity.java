@@ -1,5 +1,6 @@
 package com.example.cuddly_octo_sniffle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,14 +16,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.cuddly_octo_sniffle.adapters.MyRecyclerViewAdapter;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -44,6 +51,8 @@ public class ScheduleActivity extends AppCompatActivity implements MyRecyclerVie
     int selectedYear = calendar.get(Calendar.YEAR);
     int selectedMonth = calendar.get(Calendar.MONTH);
     int selectedDayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+
+    ArrayList<Integer> hours = new ArrayList<Integer>();
 
 
     @Override
@@ -70,6 +79,8 @@ public class ScheduleActivity extends AppCompatActivity implements MyRecyclerVie
             selectedYear = year;
             selectedMonth = month;
             selectedDayOfMonth = dayOfMonth;
+
+            ChangeRecyclerViewItems(building, room);
 
 
         });
@@ -103,6 +114,7 @@ public class ScheduleActivity extends AppCompatActivity implements MyRecyclerVie
                                     LINE BREAK
          /------------------------------------------------------------------/*/
 
+
         btnScheduleFinish = findViewById(R.id.btn_schedule_finish);
         btnScheduleFinish.setOnClickListener(v -> {
 
@@ -111,9 +123,6 @@ public class ScheduleActivity extends AppCompatActivity implements MyRecyclerVie
             // building, room, username, email
             //  String TAG = "SABA";
 
-
-            // Create a reference to the document for the given building
-            //DocumentReference buildingRef = fireStore.collection("dates").document(building);
 
             int hour = -1; // placeholder
             String reason = "Reason"; // placeholder
@@ -179,7 +188,7 @@ public class ScheduleActivity extends AppCompatActivity implements MyRecyclerVie
                                                                 Map<String, Object> hourData = new HashMap<>();
                                                                 dayRef.collection("hour").document(Integer.toString(hour)).set(hourData);
                                                             }
-// add the user data to the database
+                                                            // add the user data to the database
                                                             Map<String, Object> userData = new HashMap<>();
                                                             userData.put("email", email);
                                                             userData.put("username", username);
@@ -213,6 +222,56 @@ public class ScheduleActivity extends AppCompatActivity implements MyRecyclerVie
         });
     }
 
+    private void ChangeRecyclerViewItems(String building, String room) {
+
+        //TODO: when user changes date, get hours within the date, if date doesn't exists, return and do nothing
+        // BUt if hours do exists, change their color to red, and add them to an arraylist.
+
+        //      /dates/גורן/room/4/selectedYear/2023/selectedMonth/3/selectedDayOfMonth/26/hour/-1
+
+        DocumentReference roomDocRef = fireStore.collection("dates")
+                .document(building)
+                .collection("room")
+                .document(room);
+
+        roomDocRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot roomSnapshot = task.getResult();
+                if (roomSnapshot.exists()) {
+                    CollectionReference hourCollectionRef = roomDocRef.collection("selectedYear")
+                            .document(String.valueOf(selectedYear))
+                            .collection("selectedMonth")
+                            .document(String.valueOf(selectedMonth))
+                            .collection("selectedDayOfMonth")
+                            .document(String.valueOf(selectedDayOfMonth))
+                            .collection("hour");
+
+                    hourCollectionRef.get().addOnCompleteListener(task1 -> {
+                        if (task1.isSuccessful()) {
+                            List<String> hourIds = new ArrayList<>();
+                            for (QueryDocumentSnapshot document : task1.getResult()) {
+                                hourIds.add(document.getId());
+                            }
+                            //TODO: use the hourIds arrayList to block the selection possibility
+                            //  within the recycler view list
+
+                            // Do something with the hourIds list
+                            Log.d("Firestore", "Hour IDs: " + hourIds);
+                        } else {
+                            Log.d("Firestore", "Error getting documents: ", task1.getException());
+                        }
+                    });
+                } else {
+                    Log.d("Firestore", "Room does not exist");
+                }
+            } else {
+                Log.d("Firestore", "Error getting document: ", task.getException());
+            }
+        });
+
+
+    }
+
 
     @Override
     public void onItemClick(View view, int position) {
@@ -221,6 +280,8 @@ public class ScheduleActivity extends AppCompatActivity implements MyRecyclerVie
         // If user clicks on a positive hour, add it to a list and change its color to bright green.
 
         Toast.makeText(this, "Clicked on " + position + "!", Toast.LENGTH_SHORT).show();
+
+
 
 
     }
