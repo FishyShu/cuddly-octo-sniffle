@@ -1,6 +1,5 @@
 package com.example.cuddly_octo_sniffle;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,15 +15,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.cuddly_octo_sniffle.adapters.MyRecyclerViewAdapter;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -52,6 +48,9 @@ public class ScheduleActivity extends AppCompatActivity implements MyRecyclerVie
     int selectedMonth = calendar.get(Calendar.MONTH);
     int selectedDayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 
+
+    List<Integer> occupiedHoursWithinDay = new ArrayList<>();
+    List<Integer> selectedHoursWithinDay = new ArrayList<>();
 
 
     @Override
@@ -81,13 +80,13 @@ public class ScheduleActivity extends AppCompatActivity implements MyRecyclerVie
             selectedMonth = month;
             selectedDayOfMonth = dayOfMonth;
 
+            selectedHoursWithinDay.clear();
+
             ChangeRecyclerViewItems(building, room);
 
 
         });
 
-
-        //TODO: Get FireStore information about the current date selected.
 
         ArrayList<String> numbers = new ArrayList<>();
 
@@ -124,8 +123,9 @@ public class ScheduleActivity extends AppCompatActivity implements MyRecyclerVie
             // building, room, username, email
             //  String TAG = "SABA";
 
-
-            int hour = -1; // placeholder
+            // TODO: make an arraylist that loops through all selected hours
+            //  also make sure that the date is similar, and if user changes dates, it will clear the hour arraylist
+            //int hour = -1; // placeholder
             String reason = "Reason"; // placeholder
 
             // Check if the room exists in the building document
@@ -179,27 +179,30 @@ public class ScheduleActivity extends AppCompatActivity implements MyRecyclerVie
                                                         Map<String, Object> dayData = new HashMap<>();
                                                         monthRef.collection("selectedDayOfMonth").document(Integer.toString(selectedDayOfMonth)).set(dayData);
                                                     }
-                                                    // check if the hour exists in the database
-                                                    DocumentReference hourRef = dayRef.collection("hour").document(Integer.toString(hour));
-                                                    hourRef.get().addOnCompleteListener(hourTask -> {
-                                                        if (hourTask.isSuccessful()) {
-                                                            DocumentSnapshot hourDoc = hourTask.getResult();
-                                                            if (!hourDoc.exists()) {
-                                                                // create a new document for the hour
-                                                                Map<String, Object> hourData = new HashMap<>();
-                                                                dayRef.collection("hour").document(Integer.toString(hour)).set(hourData);
+                                                    // loop through all selected hours and add user data to the database
+                                                    for (int hour : selectedHoursWithinDay){
+                                                        // check if the hour exists in the database
+                                                        DocumentReference hourRef = dayRef.collection("hour").document(Integer.toString(hour));
+                                                        hourRef.get().addOnCompleteListener(hourTask -> {
+                                                            if (hourTask.isSuccessful()) {
+                                                                DocumentSnapshot hourDoc = hourTask.getResult();
+                                                                if (!hourDoc.exists()) {
+                                                                    // create a new document for the hour
+                                                                    Map<String, Object> hourData = new HashMap<>();
+                                                                    dayRef.collection("hour").document(Integer.toString(hour)).set(hourData);
+                                                                }
+                                                                // add the user data to the database
+                                                                Map<String, Object> userData = new HashMap<>();
+                                                                userData.put("email", email);
+                                                                userData.put("username", username);
+                                                                userData.put("reason", reason);
+                                                                assert email != null;
+                                                                hourRef.collection("userDate").document(email).set(userData);
+                                                            } else {
+                                                                Log.d(TAG, "Error getting hour document: ", hourTask.getException());
                                                             }
-                                                            // add the user data to the database
-                                                            Map<String, Object> userData = new HashMap<>();
-                                                            userData.put("email", email);
-                                                            userData.put("username", username);
-                                                            userData.put("reason", reason);
-                                                            assert email != null;
-                                                            hourRef.collection("userDate").document(email).set(userData);
-                                                        } else {
-                                                            Log.d(TAG, "Error getting hour document: ", hourTask.getException());
-                                                        }
-                                                    });
+                                                        });
+                                                    }
                                                 } else {
                                                     Log.d(TAG, "Error getting day document: ", dayTask.getException());
                                                 }
@@ -225,11 +228,6 @@ public class ScheduleActivity extends AppCompatActivity implements MyRecyclerVie
 
     private void ChangeRecyclerViewItems(String building, String room) {
 
-        //TODO: when user changes date, get hours within the date, if date doesn't exists, return and do nothing
-        // BUt if hours do exists, change their color to red, and add them to an arraylist.
-
-        //      /dates/גורן/room/4/selectedYear/2023/selectedMonth/3/selectedDayOfMonth/26/hour/-1
-
         DocumentReference roomDocRef = fireStore.collection("dates")
                 .document(building)
                 .collection("room")
@@ -249,13 +247,13 @@ public class ScheduleActivity extends AppCompatActivity implements MyRecyclerVie
 
                     hourCollectionRef.get().addOnCompleteListener(task1 -> {
                         if (task1.isSuccessful()) {
-                            List<String> hourIds = new ArrayList<>();
+                            List<Integer> hourIds = new ArrayList<>();
                             for (QueryDocumentSnapshot document : task1.getResult()) {
-                                hourIds.add(document.getId());
+                                hourIds.add(Integer.valueOf(document.getId()));
                             }
                             //TODO: use the hourIds arrayList to block the selection possibility
-                            //  within the recycler view list
-
+                            //  within the recycler view list + set them to color 'RED'.
+                            occupiedHoursWithinDay = hourIds;
                             // Do something with the hourIds list
                             Log.d("Firestore", "Hour IDs: " + hourIds);
                         } else {
@@ -276,14 +274,23 @@ public class ScheduleActivity extends AppCompatActivity implements MyRecyclerVie
 
     @Override
     public void onItemClick(View view, int position) {
+        int truePos = position + 1;
+        if (!occupiedHoursWithinDay.contains(truePos)) {
+            if (!selectedHoursWithinDay.contains(truePos)) {
+                selectedHoursWithinDay.add(truePos);
+                Toast.makeText(this, "Clicked on " + truePos + "!" + " Item Changed to cyan", Toast.LENGTH_SHORT).show();
+                Log.d("HoursWithinDay A", "Hour: " + selectedHoursWithinDay);
 
-        //TODO: When user clicks on a Negative hour, show alert with user information from FireStore
-        // If user clicks on a positive hour, add it to a list and change its color to bright green.
 
-        Toast.makeText(this, "Clicked on " + position + "!", Toast.LENGTH_SHORT).show();
-
-
-
-
+                //TODO: change item color to cyan
+            } else {
+                Toast.makeText(this, "Clicked on " + truePos + "!" + " Item Changed to default", Toast.LENGTH_SHORT).show();
+                //TODO: change item color to from cyan to default
+                Log.d("HoursWithinDay R", "Hour : " + selectedHoursWithinDay);
+            }
+            Log.d("Occupied Hour has been clicked", "Hour occupied : " + occupiedHoursWithinDay);
+        }
+            Toast.makeText(this, "Clicked on " + truePos + "!", Toast.LENGTH_SHORT).show();
     }
+
 }
