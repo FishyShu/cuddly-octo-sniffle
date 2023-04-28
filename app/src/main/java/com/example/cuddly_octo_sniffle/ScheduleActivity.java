@@ -113,6 +113,7 @@ public class ScheduleActivity extends AppCompatActivity implements MyRecyclerVie
         recyclerView.addItemDecoration(dividerItemDecoration);
 
 
+        //adapter.setOccupiedHoursWithinDay(occupiedHoursWithinDay);
         /*/ ---------------------------------------------------------------- //
                                     LINE BREAK
          /------------------------------------------------------------------/*/
@@ -257,6 +258,9 @@ public class ScheduleActivity extends AppCompatActivity implements MyRecyclerVie
                             //TODO: use the hourIds arrayList to block the selection possibility
                             //  within the recycler view list + set them to color 'RED'.
                             occupiedHoursWithinDay = hourIds;
+
+
+
                             // Do something with the hourIds list
                             Log.d("Firestore", "Hour IDs: " + hourIds);
                         } else {

@@ -240,34 +240,31 @@ public class MainActivity extends AppCompatActivity {
         // TODO: when click, set item within spinner to match the building.
 
 
-        btn_bMain.setOnClickListener(v -> {
+        btn_bMain.setOnClickListener(v->{
+            spinner_building.setSelection(7);
         });
-        btn_bShop.setOnClickListener(v -> {
-
+        btn_bOmarim.setOnClickListener(v->{
+            spinner_building.setSelection(6);
         });
-        btn_bSports_hall.setOnClickListener(v -> {
+        btn_bKatzir.setOnClickListener(v->{
+            spinner_building.setSelection(5);
+        });
+        btn_bGoren.setOnClickListener(v->{
+            spinner_building.setSelection(4);
+        });
+        btn_bMagal.setOnClickListener(v->{
+            spinner_building.setSelection(3);
+        });
+        btn_bMorag.setOnClickListener(v->{
+            spinner_building.setSelection(2);
+        });
+        btn_bAlomot.setOnClickListener(v->{
+            spinner_building.setSelection(1);
+        });
+        btn_bKama.setOnClickListener(v->{
+            spinner_building.setSelection(0);
         });
 
-        btn_bMagal.setOnClickListener(v -> {
-
-        });
-        btn_bGoren.setOnClickListener(v -> {
-
-        });
-        btn_bMorag.setOnClickListener(v -> {
-
-        });
-
-        btn_bKatzir.setOnClickListener(v -> {
-
-        });
-        btn_bAlomot.setOnClickListener(v -> {
-
-        });
-
-        btn_bKama.setOnClickListener(v -> {
-
-        });
 
         btn_occupy.setOnClickListener(v -> {
 
