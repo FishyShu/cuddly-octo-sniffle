@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import android.util.Log;
@@ -69,6 +70,7 @@ public class ScheduleActivity extends AppCompatActivity implements MyRecyclerVie
 
         ChangeRecyclerViewItems(building, room);
 
+        //MakeTheWorldRedAgain();
 
         cvSchedulePicker.setOnDateChangeListener((view, year, month, dayOfMonth) -> {
 
@@ -90,7 +92,7 @@ public class ScheduleActivity extends AppCompatActivity implements MyRecyclerVie
 
         ArrayList<String> numbers = new ArrayList<>();
 
-        for (int i = 1; i < 10; i++)
+        for (int i = 0; i < 10; i++)
             numbers.add(String.valueOf(i));
 
         // set up the RecyclerView
@@ -109,6 +111,7 @@ public class ScheduleActivity extends AppCompatActivity implements MyRecyclerVie
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
                 layoutManager.getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
+
 
         /*/ ---------------------------------------------------------------- //
                                     LINE BREAK
@@ -180,7 +183,7 @@ public class ScheduleActivity extends AppCompatActivity implements MyRecyclerVie
                                                         monthRef.collection("selectedDayOfMonth").document(Integer.toString(selectedDayOfMonth)).set(dayData);
                                                     }
                                                     // loop through all selected hours and add user data to the database
-                                                    for (int hour : selectedHoursWithinDay){
+                                                    for (int hour : selectedHoursWithinDay) {
                                                         // check if the hour exists in the database
                                                         DocumentReference hourRef = dayRef.collection("hour").document(Integer.toString(hour));
                                                         hourRef.get().addOnCompleteListener(hourTask -> {
@@ -275,22 +278,27 @@ public class ScheduleActivity extends AppCompatActivity implements MyRecyclerVie
     @Override
     public void onItemClick(View view, int position) {
         int truePos = position + 1;
-        if (!occupiedHoursWithinDay.contains(truePos)) {
-            if (!selectedHoursWithinDay.contains(truePos)) {
-                selectedHoursWithinDay.add(truePos);
-                Toast.makeText(this, "Clicked on " + truePos + "!" + " Item Changed to cyan", Toast.LENGTH_SHORT).show();
+        if (!occupiedHoursWithinDay.contains(position)) {
+            if (!selectedHoursWithinDay.contains(position)) {
+                selectedHoursWithinDay.add(position);
+                Toast.makeText(this, "Clicked on " + position + "!" +
+                        " Item Changed to cyan", Toast.LENGTH_SHORT).show();
                 Log.d("HoursWithinDay A", "Hour: " + selectedHoursWithinDay);
-
-
+                view.setBackgroundColor(Color.CYAN);
                 //TODO: change item color to cyan
+
             } else {
-                Toast.makeText(this, "Clicked on " + truePos + "!" + " Item Changed to default", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Clicked on " + position + "!" +
+                        " Item Changed to default", Toast.LENGTH_SHORT).show();
+                view.setBackgroundColor(Color.WHITE);
                 //TODO: change item color to from cyan to default
+                selectedHoursWithinDay.remove(Integer.valueOf(position));
                 Log.d("HoursWithinDay R", "Hour : " + selectedHoursWithinDay);
             }
-            Log.d("Occupied Hour has been clicked", "Hour occupied : " + occupiedHoursWithinDay);
+            Log.d("Occupied Hour has been clicked", "Hour occupied : " +
+                    occupiedHoursWithinDay);
         }
-            Toast.makeText(this, "Clicked on " + truePos + "!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Clicked on " + position + "!", Toast.LENGTH_SHORT).show();
     }
 
 }
