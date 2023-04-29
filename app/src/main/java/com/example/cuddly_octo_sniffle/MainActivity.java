@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
     FirebaseFirestore fireStore = FirebaseFirestore.getInstance();
 
-    final static String COLLECTION_DATA = "settings";
+    //final static String COLLECTION_DATA = "settings";
 
     CollectionReference settingsRef = fireStore.collection("settings");
     DocumentReference buildingsRef = settingsRef.document("Buildings");
@@ -58,6 +58,8 @@ public class MainActivity extends AppCompatActivity {
     // create a different way to save the current selected spinner item, if possible!
     private String selectedBuilding;
     private String selectedRoom;
+
+    private boolean isTeacher = false; // if couldn't find user, shall be set to false
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,9 +82,20 @@ public class MainActivity extends AppCompatActivity {
         // TODO: make a teacher / student system, show the occupation system only when the user is a teacher!
 
 
+        //TODO: organize the damn methods..
         askingButton();
 
         buttonGotClicked();
+
+        checkIfUserIsTeacher(); // checks if current user is teacher or not
+
+        if (isTeacher){
+            btn_occupy.setAlpha(1);
+            btn_occupy.setEnabled(true);
+        }
+        else {
+            btn_occupy.setEnabled(false);
+        }
 
 
         spinnerThings("עומרים");
@@ -99,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
 
         btn_login_test01 = findViewById(R.id.btn_login_test01);
 
+        // TODO: Change UI to match sign out, in addition to tthat, add an Alert to confirm choice!
 
         btn_login_test01.setText(getString(R.string.testUsername) + " " +
                 Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).
@@ -242,38 +256,20 @@ public class MainActivity extends AppCompatActivity {
         // TODO: when click, set item within spinner to match the building.
 
 
-        btn_bMain.setOnClickListener(v -> {
-            spinner_building.setSelection(7);
-        });
-        btn_bOmarim.setOnClickListener(v -> {
-            spinner_building.setSelection(6);
-        });
-        btn_bKatzir.setOnClickListener(v -> {
-            spinner_building.setSelection(5);
-        });
-        btn_bGoren.setOnClickListener(v -> {
-            spinner_building.setSelection(4);
-        });
-        btn_bMagal.setOnClickListener(v -> {
-            spinner_building.setSelection(3);
-        });
-        btn_bMorag.setOnClickListener(v -> {
-            spinner_building.setSelection(2);
-        });
-        btn_bAlomot.setOnClickListener(v -> {
-            spinner_building.setSelection(1);
-        });
-        btn_bKama.setOnClickListener(v -> {
-            spinner_building.setSelection(0);
-        });
+        btn_bMain.setOnClickListener(v -> spinner_building.setSelection(7));
+        btn_bOmarim.setOnClickListener(v -> spinner_building.setSelection(6));
+        btn_bKatzir.setOnClickListener(v -> spinner_building.setSelection(5));
+        btn_bGoren.setOnClickListener(v -> spinner_building.setSelection(4));
+        btn_bMagal.setOnClickListener(v -> spinner_building.setSelection(3));
+        btn_bMorag.setOnClickListener(v -> spinner_building.setSelection(2));
+        btn_bAlomot.setOnClickListener(v -> spinner_building.setSelection(1));
+        btn_bKama.setOnClickListener(v -> spinner_building.setSelection(0));
 
 
         btn_occupy.setOnClickListener(v -> {
 
-
-
-
             //TODO: check if current user isTeacher, if not, set this button alpha to 0 and don't
+            Toast.makeText(this, " " + this.isTeacher, Toast.LENGTH_SHORT).show();
             // allow current user to click this button.
             getCurrentSelection();
             // when pressed go to the activity of the schedule view to pick a date.
@@ -312,8 +308,40 @@ public class MainActivity extends AppCompatActivity {
         btn_bOmarim = (Button) findViewById(R.id.btn_bOmarim);
         btn_occupy = findViewById(R.id.btn_occupy);
 
+
         spinner_building = findViewById(R.id.spinner_building);
         spinner_room = findViewById(R.id.spinner_room);
+    }
+
+    private void checkIfUserIsTeacher() {
+        String userEmail = Objects.requireNonNull(Objects.requireNonNull(FirebaseAuth.
+                getInstance().getCurrentUser()).getEmail()).replace(".", "_");
+
+        DocumentReference documentReference = FirebaseFirestore.getInstance()
+                .collection("users")
+                .document("known-users");
+
+        documentReference.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot documentSnapshot = task.getResult();
+
+                if (documentSnapshot.exists()) {
+                    Map<String, Object> usersMap = documentSnapshot.getData();
+                    if (usersMap != null && usersMap.containsKey(userEmail)) {
+                        Map<String, Object> emailMap = (Map<String, Object>) usersMap.get(userEmail);
+                        boolean isTeacher;
+                        isTeacher = (boolean) Objects.requireNonNull(emailMap)
+                                .get("isTeacher");
+
+                        this.isTeacher = isTeacher;
+                        Log.d("TAG", "isTeacher value for " + userEmail + ": " + isTeacher);
+                    }
+                }
+            } else {
+                Log.e("TAG", "Error getting document: " +
+                        Objects.requireNonNull(task.getException()).getMessage());
+            }
+        });
     }
 
 
