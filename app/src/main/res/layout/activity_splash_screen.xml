@@ -10,7 +10,7 @@
         android:id="@+id/tv_splashscreen_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="The following code has been generated using:\nChatGPT and brain.*"
+        android:text="Welcome prompt goes here . . . "
         android:textAlignment="center"
         android:textColor="@drawable/common_google_signin_btn_text_light"
         android:textSize="26sp"

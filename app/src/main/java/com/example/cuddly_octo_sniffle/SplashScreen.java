@@ -15,7 +15,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class SplashScreen extends AppCompatActivity {
 
-    SQLiteDatabase db;
+    // SQLiteDatabase db;
 
     // Firebase initialization :))))
     FirebaseFirestore fireStore = FirebaseFirestore.getInstance();

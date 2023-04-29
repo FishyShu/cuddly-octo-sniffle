@@ -68,6 +68,8 @@ public class ScheduleActivity extends AppCompatActivity implements MyRecyclerVie
         cvSchedulePicker = findViewById(R.id.cv_schedule_picker);
         tvScheduleTitle = findViewById(R.id.tv_schedule_title);
 
+
+
         ChangeRecyclerViewItems(building, room);
 
         //MakeTheWorldRedAgain();
@@ -98,15 +100,16 @@ public class ScheduleActivity extends AppCompatActivity implements MyRecyclerVie
         // set up the RecyclerView
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         RecyclerView recyclerView = findViewById(R.id.rv_hour_picker);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new MyRecyclerViewAdapter(this, numbers);
+        //recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new MyRecyclerViewAdapter(this, numbers, occupiedHoursWithinDay);
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
 
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new MyRecyclerViewAdapter(this, numbers);
-        adapter.setClickListener(this);
-        recyclerView.setAdapter(adapter);
+
+        //adapter = new MyRecyclerViewAdapter(this, numbers);
+        //adapter.setClickListener(this);
+        //recyclerView.setAdapter(adapter);
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
                 layoutManager.getOrientation());
@@ -227,6 +230,7 @@ public class ScheduleActivity extends AppCompatActivity implements MyRecyclerVie
                     Log.d(TAG, "Error getting building document: ", task.getException());
                 }
             });
+            finish();
         });
     }
 
@@ -258,7 +262,11 @@ public class ScheduleActivity extends AppCompatActivity implements MyRecyclerVie
                             //TODO: use the hourIds arrayList to block the selection possibility
                             //  within the recycler view list + set them to color 'RED'.
                             occupiedHoursWithinDay = hourIds;
+                            adapter.setmOccupied((occupiedHoursWithinDay));
+                            adapter.notifyDataSetChanged();
 
+                            //TODO: change occupied hours to red, and other to white
+                            // + clear selectedHoursWithinDay
 
 
                             // Do something with the hourIds list
@@ -281,7 +289,7 @@ public class ScheduleActivity extends AppCompatActivity implements MyRecyclerVie
 
     @Override
     public void onItemClick(View view, int position) {
-        int truePos = position + 1;
+        // int truePos = position + 1;
         if (!occupiedHoursWithinDay.contains(position)) {
             if (!selectedHoursWithinDay.contains(position)) {
                 selectedHoursWithinDay.add(position);
@@ -301,6 +309,11 @@ public class ScheduleActivity extends AppCompatActivity implements MyRecyclerVie
             }
             Log.d("Occupied Hour has been clicked", "Hour occupied : " +
                     occupiedHoursWithinDay);
+        } else {
+            Toast.makeText(this, "Clicked on occupied hour", Toast.LENGTH_SHORT).show();
+            view.setBackgroundColor(Color.RED);
+            Log.d("Hour already occupied", "Hour:" + position);
+
         }
         Toast.makeText(this, "Clicked on " + position + "!", Toast.LENGTH_SHORT).show();
     }

@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     CollectionReference settingsRef = fireStore.collection("settings");
     DocumentReference buildingsRef = settingsRef.document("Buildings");
 
+
     //CollectionReference roomsRef = settingsRef.document("Buildings").collection("");
     List<String> list = new ArrayList<>();
 
@@ -100,7 +101,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         btn_login_test01.setText(getString(R.string.testUsername) + " " +
-                Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getDisplayName());
+                Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).
+                        getDisplayName());
         btn_login_test01.setOnClickListener(v -> {
             // signOut the user from the Google account or the general account
             firebaseAuth.signOut();
@@ -117,9 +119,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                Toast.makeText(MainActivity.this, "Changed item", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Changed item", Toast.LENGTH_SHORT).
+                        show();
                 int buildingPosition = spinner_building.getSelectedItemPosition();
-
 
                 // TODO: Main building doesn't work, fix!
                 switch (buildingPosition) {
@@ -240,34 +242,39 @@ public class MainActivity extends AppCompatActivity {
         // TODO: when click, set item within spinner to match the building.
 
 
-        btn_bMain.setOnClickListener(v->{
+        btn_bMain.setOnClickListener(v -> {
             spinner_building.setSelection(7);
         });
-        btn_bOmarim.setOnClickListener(v->{
+        btn_bOmarim.setOnClickListener(v -> {
             spinner_building.setSelection(6);
         });
-        btn_bKatzir.setOnClickListener(v->{
+        btn_bKatzir.setOnClickListener(v -> {
             spinner_building.setSelection(5);
         });
-        btn_bGoren.setOnClickListener(v->{
+        btn_bGoren.setOnClickListener(v -> {
             spinner_building.setSelection(4);
         });
-        btn_bMagal.setOnClickListener(v->{
+        btn_bMagal.setOnClickListener(v -> {
             spinner_building.setSelection(3);
         });
-        btn_bMorag.setOnClickListener(v->{
+        btn_bMorag.setOnClickListener(v -> {
             spinner_building.setSelection(2);
         });
-        btn_bAlomot.setOnClickListener(v->{
+        btn_bAlomot.setOnClickListener(v -> {
             spinner_building.setSelection(1);
         });
-        btn_bKama.setOnClickListener(v->{
+        btn_bKama.setOnClickListener(v -> {
             spinner_building.setSelection(0);
         });
 
 
         btn_occupy.setOnClickListener(v -> {
 
+
+
+
+            //TODO: check if current user isTeacher, if not, set this button alpha to 0 and don't
+            // allow current user to click this button.
             getCurrentSelection();
             // when pressed go to the activity of the schedule view to pick a date.
             startActivity(new Intent(this, ScheduleActivity.class).putExtra("building", selectedBuilding).putExtra("room", selectedRoom));

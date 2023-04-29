@@ -21,12 +21,22 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     private List<String> mData;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
+    private List<Integer> mOccupied;
 
 
     // data is passed into the constructor
-    public MyRecyclerViewAdapter(Context context, List<String> data) {
+    public MyRecyclerViewAdapter(Context context, List<String> data, List<Integer> occupied) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
+        this.mOccupied = occupied;
+    }
+
+    public List<Integer> getmOccupied() {
+        return mOccupied;
+    }
+
+    public void setmOccupied(List<Integer> mOccupied) {
+        this.mOccupied = mOccupied;
     }
 
     // inflates the row layout from xml when needed
@@ -42,6 +52,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     public void onBindViewHolder(ViewHolder holder, int position) {
         String uwu = mData.get(position);
         holder.myTextView.setText(uwu);
+
+        if (mOccupied.contains(position)) {
+            holder.myTextView.setBackgroundColor(Color.MAGENTA);
+        }
 
 
     }
