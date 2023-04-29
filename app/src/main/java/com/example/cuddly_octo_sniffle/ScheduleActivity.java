@@ -264,6 +264,7 @@ public class ScheduleActivity extends AppCompatActivity implements MyRecyclerVie
                             occupiedHoursWithinDay = hourIds;
                             adapter.setmOccupied((occupiedHoursWithinDay));
                             adapter.notifyDataSetChanged();
+                            selectedHoursWithinDay.clear();
 
                             //TODO: change occupied hours to red, and other to white
                             // + clear selectedHoursWithinDay
