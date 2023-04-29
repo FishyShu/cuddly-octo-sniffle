@@ -69,7 +69,6 @@ public class ScheduleActivity extends AppCompatActivity implements MyRecyclerVie
         tvScheduleTitle = findViewById(R.id.tv_schedule_title);
 
 
-
         ChangeRecyclerViewItems(building, room);
 
         //MakeTheWorldRedAgain();
@@ -204,7 +203,8 @@ public class ScheduleActivity extends AppCompatActivity implements MyRecyclerVie
                                                                 userData.put("username", username);
                                                                 userData.put("reason", reason);
                                                                 assert email != null;
-                                                                hourRef.collection("userDate").document(email).set(userData);
+                                                                hourRef.set(userData);
+                                                                //hourRef.collection("userDate").document(email).set(userData); <-- old user save data way
                                                             } else {
                                                                 Log.d(TAG, "Error getting hour document: ", hourTask.getException());
                                                             }
@@ -255,9 +255,12 @@ public class ScheduleActivity extends AppCompatActivity implements MyRecyclerVie
 
                     hourCollectionRef.get().addOnCompleteListener(task1 -> {
                         if (task1.isSuccessful()) {
+                            //List<String> usernames = new ArrayList<>();
                             List<Integer> hourIds = new ArrayList<>();
                             for (QueryDocumentSnapshot document : task1.getResult()) {
                                 hourIds.add(Integer.valueOf(document.getId()));
+                                // String username = document.getString("username"); // get the username field
+                                //  usernames.add(username); // add username to the list
                             }
                             //TODO: use the hourIds arrayList to block the selection possibility
                             //  within the recycler view list + set them to color 'RED'.
@@ -271,6 +274,7 @@ public class ScheduleActivity extends AppCompatActivity implements MyRecyclerVie
 
 
                             // Do something with the hourIds list
+                            // Log.d("Firestore", " Username is: " + usernames);
                             Log.d("Firestore", "Hour IDs: " + hourIds);
                         } else {
                             Log.d("Firestore", "Error getting documents: ", task1.getException());
