@@ -255,10 +255,13 @@ public class ScheduleActivity extends AppCompatActivity implements MyRecyclerVie
 
                     hourCollectionRef.get().addOnCompleteListener(task1 -> {
                         if (task1.isSuccessful()) {
-                            //List<String> usernames = new ArrayList<>();
+                            List<String> usernames = new ArrayList<>();
                             List<Integer> hourIds = new ArrayList<>();
                             for (QueryDocumentSnapshot document : task1.getResult()) {
                                 hourIds.add(Integer.valueOf(document.getId()));
+
+                                usernames.add(document.getString("username"));
+
                                 // String username = document.getString("username"); // get the username field
                                 //  usernames.add(username); // add username to the list
                             }
@@ -274,7 +277,7 @@ public class ScheduleActivity extends AppCompatActivity implements MyRecyclerVie
 
 
                             // Do something with the hourIds list
-                            // Log.d("Firestore", " Username is: " + usernames);
+                            Log.d("Firestore", " Username is: " + usernames);
                             Log.d("Firestore", "Hour IDs: " + hourIds);
                         } else {
                             Log.d("Firestore", "Error getting documents: ", task1.getException());
