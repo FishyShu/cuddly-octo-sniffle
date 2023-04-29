@@ -70,8 +70,8 @@ public class SplashScreen extends AppCompatActivity {
         createNotificationChannel();
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), (CHANNEL_ID))
-                .setSmallIcon(R.drawable.ic_launcher_background)
-                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher_round))
+                .setSmallIcon(R.drawable.ic_launcher_background) // TODO: Change Icon
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher_round)) //TODO: Change icon
                 .setContentTitle("Welcome to the application!")
                 .setContentText("Thank you for downloading  Nahahal Navigate!")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
