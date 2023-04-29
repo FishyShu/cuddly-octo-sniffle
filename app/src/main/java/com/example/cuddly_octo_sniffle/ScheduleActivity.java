@@ -52,6 +52,7 @@ public class ScheduleActivity extends AppCompatActivity implements MyRecyclerVie
 
     List<Integer> occupiedHoursWithinDay = new ArrayList<>();
     List<Integer> selectedHoursWithinDay = new ArrayList<>();
+    List<String> selectedOccupiersUsernames = new ArrayList<>();
 
 
     @Override
@@ -254,6 +255,7 @@ public class ScheduleActivity extends AppCompatActivity implements MyRecyclerVie
                             .collection("hour");
 
                     hourCollectionRef.get().addOnCompleteListener(task1 -> {
+
                         if (task1.isSuccessful()) {
                             List<String> usernames = new ArrayList<>();
                             List<Integer> hourIds = new ArrayList<>();
@@ -271,6 +273,7 @@ public class ScheduleActivity extends AppCompatActivity implements MyRecyclerVie
                             adapter.setmOccupied((occupiedHoursWithinDay));
                             adapter.notifyDataSetChanged();
                             selectedHoursWithinDay.clear();
+                            selectedOccupiersUsernames = usernames;
 
                             //TODO: change occupied hours to red, and other to white
                             // + clear selectedHoursWithinDay
@@ -301,15 +304,15 @@ public class ScheduleActivity extends AppCompatActivity implements MyRecyclerVie
         if (!occupiedHoursWithinDay.contains(position)) {
             if (!selectedHoursWithinDay.contains(position)) {
                 selectedHoursWithinDay.add(position);
-                Toast.makeText(this, "Clicked on " + position + "!" +
-                        " Item Changed to cyan", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "Clicked on " + position + "!" +
+                // " Item Changed to cyan", Toast.LENGTH_SHORT).show();
                 Log.d("HoursWithinDay A", "Hour: " + selectedHoursWithinDay);
                 view.setBackgroundColor(Color.CYAN);
                 //TODO: change item color to cyan
 
             } else {
-                Toast.makeText(this, "Clicked on " + position + "!" +
-                        " Item Changed to default", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "Clicked on " + position + "!" +
+                // " Item Changed to default", Toast.LENGTH_SHORT).show();
                 view.setBackgroundColor(Color.WHITE);
                 //TODO: change item color to from cyan to default
                 selectedHoursWithinDay.remove(Integer.valueOf(position));
@@ -318,12 +321,20 @@ public class ScheduleActivity extends AppCompatActivity implements MyRecyclerVie
             Log.d("Occupied Hour has been clicked", "Hour occupied : " +
                     occupiedHoursWithinDay);
         } else {
-            Toast.makeText(this, "Clicked on occupied hour", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "Current Occupier" + selectedOccupiersUsernames.
+            // get(occupiedHoursWithinDay.indexOf(position)), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Current Occupier: " + selectedOccupiersUsernames.
+                    get(occupiedHoursWithinDay.indexOf(position)), Toast.LENGTH_LONG).show();
             //view.setBackgroundColor(Color.RED);
+
+
+
+
             Log.d("Hour already occupied", "Hour:" + position);
 
+
         }
-        Toast.makeText(this, "Clicked on " + position + "!", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Clicked on " + position + "!", Toast.LENGTH_SHORT).show();
     }
 
 }
