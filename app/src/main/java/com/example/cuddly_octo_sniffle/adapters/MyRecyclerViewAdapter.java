@@ -54,7 +54,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         holder.myTextView.setText(uwu);
 
         if (mOccupied.contains(position)) {
-            holder.myTextView.setBackgroundColor(Color.MAGENTA);
+            holder.itemView.setBackgroundColor(Color.RED);
+        }else {
+            holder.itemView.setBackgroundColor(Color.WHITE);
         }
 
 

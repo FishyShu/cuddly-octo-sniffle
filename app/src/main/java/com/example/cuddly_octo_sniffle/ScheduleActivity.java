@@ -311,7 +311,7 @@ public class ScheduleActivity extends AppCompatActivity implements MyRecyclerVie
                     occupiedHoursWithinDay);
         } else {
             Toast.makeText(this, "Clicked on occupied hour", Toast.LENGTH_SHORT).show();
-            view.setBackgroundColor(Color.RED);
+            //view.setBackgroundColor(Color.RED);
             Log.d("Hour already occupied", "Hour:" + position);
 
         }
