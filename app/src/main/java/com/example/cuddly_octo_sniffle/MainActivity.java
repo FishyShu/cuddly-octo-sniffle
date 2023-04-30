@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
     private String selectedBuilding;
     private String selectedRoom;
 
-    private boolean isTeacher = false; // if couldn't find user, shall be set to false
+    private boolean isTeacher = true; // if couldn't find user, shall be set to false
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,14 +88,6 @@ public class MainActivity extends AppCompatActivity {
         buttonGotClicked();
 
         checkIfUserIsTeacher(); // checks if current user is teacher or not
-
-        if (isTeacher){
-            btn_occupy.setAlpha(1);
-            btn_occupy.setEnabled(true);
-        }
-        else {
-            btn_occupy.setEnabled(false);
-        }
 
 
         spinnerThings("עומרים");
@@ -317,32 +309,40 @@ public class MainActivity extends AppCompatActivity {
         String userEmail = Objects.requireNonNull(Objects.requireNonNull(FirebaseAuth.
                 getInstance().getCurrentUser()).getEmail()).replace(".", "_");
 
-        DocumentReference documentReference = FirebaseFirestore.getInstance()
-                .collection("users")
-                .document("known-users");
+        DocumentReference docRef = fireStore.collection("users").document("known-users");
 
-        documentReference.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                DocumentSnapshot documentSnapshot = task.getResult();
+        docRef.get().addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot.exists()) {
+                Map<String, Object> userData = documentSnapshot.getData();
+                assert userData != null;
+                if (userData.containsKey("users")) {
+                    Map<String, Object> users = (Map<String, Object>) userData.get("users");
+                    assert users != null;
+                    if (users.containsKey(userEmail)) {
+                        Map<String, Object> emailData = (Map<String, Object>) users.get(userEmail);
+                        assert emailData != null;
+                        if (emailData.containsKey("isTeacher")) {
+                            boolean userIsTeacher = (boolean) emailData.get("isTeacher");
+                            // do something with the isTeacher value
 
-                if (documentSnapshot.exists()) {
-                    Map<String, Object> usersMap = documentSnapshot.getData();
-                    if (usersMap != null && usersMap.containsKey(userEmail)) {
-                        Map<String, Object> emailMap = (Map<String, Object>) usersMap.get(userEmail);
-                        boolean isTeacher;
-                        isTeacher = (boolean) Objects.requireNonNull(emailMap)
-                                .get("isTeacher");
+                            if (userIsTeacher){
+                                btn_occupy.setEnabled(true);
+                            }else { // if user is student
+                                btn_occupy.setEnabled(false);
+                                btn_occupy.setAlpha(0);
+                            }
 
-                        this.isTeacher = isTeacher;
-                        Log.d("TAG", "isTeacher value for " + userEmail + ": " + isTeacher);
+                        }
                     }
                 }
-            } else {
-                Log.e("TAG", "Error getting document: " +
-                        Objects.requireNonNull(task.getException()).getMessage());
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                // handle failure
             }
         });
     }
 
-
 }
+
