@@ -67,6 +67,6 @@ public class AlarmReceiver extends BroadcastReceiver {
     }
 
     private synchronized static int getNextNotificationId() {
-        return ++notificationId;
+        return ++notificationId; // this will allow the users to have more than one notification at a time.
     }
 }
