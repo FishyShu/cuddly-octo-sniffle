@@ -12,9 +12,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.widget.ProgressBar;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,7 +25,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class SplashScreen extends AppCompatActivity {
     private final String CHANNEL_ID = "Notification";
-    private final int NOTIFICATION_ID = 01;
 
 
     // SQLiteDatabase db;
@@ -35,10 +36,13 @@ public class SplashScreen extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     boolean isNotificationShown = false;
 
+    ProgressBar progressBar1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
+
 
         FirebaseApp.initializeApp(SplashScreen.this);
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -46,6 +50,7 @@ public class SplashScreen extends AppCompatActivity {
         // Get shared preferences
         sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         isNotificationShown = sharedPreferences.getBoolean("isNotificationShown", false);
+
 
         Handler handler = new Handler();
         handler.postDelayed(() -> {
@@ -89,6 +94,7 @@ public class SplashScreen extends AppCompatActivity {
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
+        int NOTIFICATION_ID = 1;
         notificationManager.notify(NOTIFICATION_ID, builder.build());
 
         // Save the notification flag to shared preferences

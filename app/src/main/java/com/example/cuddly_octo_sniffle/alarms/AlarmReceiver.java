@@ -23,7 +23,7 @@ import com.example.cuddly_octo_sniffle.R;
 public class AlarmReceiver extends BroadcastReceiver {
 
     private static final String NOTIFICATION_CHANNEL_ID = "my_channel_id";
-    private static int notificationId = 0;
+    private static int notificationId = 2;
 
     @Override
     public void onReceive(Context context, Intent intent) {

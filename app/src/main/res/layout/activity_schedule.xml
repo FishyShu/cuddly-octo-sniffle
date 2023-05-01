@@ -3,12 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@drawable/image_2"
     android:layout_height="match_parent"
     tools:context=".ScheduleActivity">
 
     <CalendarView
         android:id="@+id/cv_schedule_picker"
         android:layout_width="0dp"
+        android:background="#80FFFFFF"
         android:layout_height="wrap_content"
         android:contentDescription="Calendar view for picking a date!"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -23,11 +25,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Pick date prompt goes here"
+        android:gravity="center_horizontal"
+        android:text="Hello Teacher\nPick a date you want to occupy"
+        android:textSize="22sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/cv_schedule_picker"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.504"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/fab_schedule_go_back"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
@@ -77,8 +82,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal"
-
-
+        android:background="#BFFFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -103,15 +107,14 @@
         android:id="@+id/fab_schedule_go_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:clickable="true"
+        android:contentDescription="Go back to the map"
         app:layout_constraintBottom_toTopOf="@+id/cv_schedule_picker"
-        app:layout_constraintEnd_toStartOf="@+id/tv_schedule_title"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.045"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/baseline_arrow_back"
-        android:contentDescription="Go back to the map" />
+        app:srcCompat="@drawable/baseline_arrow_back" />
 </androidx.constraintlayout.widget.ConstraintLayout>

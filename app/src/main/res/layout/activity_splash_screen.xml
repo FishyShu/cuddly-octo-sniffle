@@ -27,19 +27,21 @@
         app:srcCompat="@drawable/splashscreen_logo" />
 
     <ProgressBar
-        android:id="@+id/progressBar"
-        style="@style/Widget.AppCompat.ProgressBar"
+        android:id="@+id/progressBar1"
+        style="?android:attr/progressBarStyleLarge"
         android:progressTint="@color/black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:indeterminateTintMode="src_atop"
+        android:indeterminateTint="@color/progress_bar"
         android:layout_marginTop="64dp"
+        android:progressDrawable="@drawable/custom_progressbar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_splashscreen_logo"
         app:layout_constraintVertical_bias="0.0"
-        android:layout_centerInParent="true"
         android:indeterminate="false"
         android:max="100"
         android:progress="0" />
