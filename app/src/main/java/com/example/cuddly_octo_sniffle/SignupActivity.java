@@ -1,7 +1,5 @@
 package com.example.cuddly_octo_sniffle;
 
-import androidx.annotation.NonNull;
-
 import static android.content.ContentValues.TAG;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,16 +11,10 @@ import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
@@ -34,7 +26,7 @@ import java.util.Map;
 
 public class SignupActivity extends AppCompatActivity {
 
-    TextView tvSignupTitle;
+    TextView tvSignupTitle, tvSignupLogin;
     EditText edSignupUsername;
     EditText edSignupEmail;
     EditText edSignupPassword;
@@ -56,6 +48,11 @@ public class SignupActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
 
         btnSignupSubmit.setOnClickListener(this::onClick);
+
+        tvSignupLogin.setOnClickListener(v -> {
+            startActivity(new Intent(SignupActivity.this, LoginActivity.class));
+            finish();
+        });
     }
 
     private void findTheViews() {
@@ -65,6 +62,7 @@ public class SignupActivity extends AppCompatActivity {
         edSignupPassword = findViewById(R.id.ed_signup_password);
         edSignupConfirmPassword = findViewById(R.id.ed_signup_confirm_password);
         btnSignupSubmit = findViewById(R.id.btn_signup_submit);
+        tvSignupLogin = findViewById(R.id.tv_signup_login);
         //cbSignupIsTeacher = findViewById(R.id.cb_signup_is_teacher);
     }
 

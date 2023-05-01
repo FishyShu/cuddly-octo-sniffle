@@ -89,6 +89,21 @@
         app:layout_constraintTop_toBottomOf="@+id/ed_signup_confirm_password"
         app:layout_constraintVertical_bias="0.5" />
 
+    <TextView
+        android:id="@+id/tv_signup_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Already have an account?"
+        android:textAlignment="center"
+        android:textStyle="normal"
+        android:textColor="#267E7E"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_signup_submit"
+        app:layout_constraintVertical_bias="0.5" />
+
     <!--<CheckBox
         android:id="@+id/cb_signup_is_teacher"
         android:layout_width="120dp"

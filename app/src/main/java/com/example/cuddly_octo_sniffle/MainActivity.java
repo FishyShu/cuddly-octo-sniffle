@@ -3,11 +3,13 @@ package com.example.cuddly_octo_sniffle;
 import static android.content.ContentValues.TAG;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 //import androidx.core.app.ActivityCompat;
 //import androidx.core.app.NotificationCompat;
 //import androidx.core.app.NotificationManagerCompat;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 //import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -114,11 +116,27 @@ public class MainActivity extends AppCompatActivity {
                 Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).
                         getDisplayName());
         btn_login_test01.setOnClickListener(v -> {
-            // signOut the user from the Google account or the general account
-            firebaseAuth.signOut();
-            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-            startActivity(intent);
-            finish();
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Are you sure you want to log out?")
+                    .setTitle("!")
+                    .setCancelable(true)
+                    .setPositiveButton("Yes", (dialog, id) -> {
+                        // signOut the user from the Google account or the general account
+                        firebaseAuth.signOut();
+                        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                        finish();
+                    })
+                    .setNegativeButton("No", (dialog, id) -> {
+                        // User clicked No button, dismiss the dialog
+                        dialog.dismiss();
+                    });
+
+            AlertDialog alert = builder.create();
+            alert.show();
+
+
         });
     }
 
