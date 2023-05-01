@@ -4,8 +4,12 @@ import static android.content.ContentValues.TAG;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+//import androidx.core.app.ActivityCompat;
+//import androidx.core.app.NotificationCompat;
+//import androidx.core.app.NotificationManagerCompat;
 
 import android.content.Intent;
+//import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -325,9 +329,9 @@ public class MainActivity extends AppCompatActivity {
                             boolean userIsTeacher = (boolean) emailData.get("isTeacher");
                             // do something with the isTeacher value
 
-                            if (userIsTeacher){
+                            if (userIsTeacher) {
                                 btn_occupy.setEnabled(true);
-                            }else { // if user is student
+                            } else { // if user is student
                                 btn_occupy.setEnabled(false);
                                 btn_occupy.setAlpha(0);
                             }
@@ -343,6 +347,28 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    /*private void createNotification() {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "CHANNEL_ID")
+                .setSmallIcon(R.drawable.baseline_notifications)
+                .setContentTitle("My Notification")
+                .setContentText("This is a test notification.")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        notificationManager.notify(0, builder.build());
+    }
+*/
 
 }
 

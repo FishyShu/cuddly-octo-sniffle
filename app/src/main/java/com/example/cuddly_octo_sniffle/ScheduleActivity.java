@@ -5,7 +5,13 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+//import android.content.SharedPreferences;
 import android.graphics.Color;
+//import android.os.Build;
 import android.os.Bundle;
 
 import android.util.Log;
@@ -16,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.cuddly_octo_sniffle.adapters.MyRecyclerViewAdapter;
+import com.example.cuddly_octo_sniffle.alarms.AlarmReceiver;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -35,6 +42,7 @@ public class ScheduleActivity extends AppCompatActivity implements MyRecyclerVie
     FirebaseFirestore fireStore = FirebaseFirestore.getInstance();
 
 
+    //private SharedPreferences prefs;
     CalendarView cvSchedulePicker;
     TextView tvScheduleTitle;
 
@@ -187,29 +195,67 @@ public class ScheduleActivity extends AppCompatActivity implements MyRecyclerVie
                                                         monthRef.collection("selectedDayOfMonth").document(Integer.toString(selectedDayOfMonth)).set(dayData);
                                                     }
                                                     // loop through all selected hours and add user data to the database
-                                                    for (int hour : selectedHoursWithinDay) {
-                                                        // check if the hour exists in the database
-                                                        DocumentReference hourRef = dayRef.collection("hour").document(Integer.toString(hour));
-                                                        hourRef.get().addOnCompleteListener(hourTask -> {
-                                                            if (hourTask.isSuccessful()) {
-                                                                DocumentSnapshot hourDoc = hourTask.getResult();
-                                                                if (!hourDoc.exists()) {
-                                                                    // create a new document for the hour
-                                                                    Map<String, Object> hourData = new HashMap<>();
-                                                                    dayRef.collection("hour").document(Integer.toString(hour)).set(hourData);
+                                                    if (selectedHoursWithinDay.isEmpty()) {
+                                                        Toast.makeText(this, "Please select at least one hour", Toast.LENGTH_SHORT).show();
+                                                    } else {
+                                                        for (int hour : selectedHoursWithinDay) {
+                                                            // check if the hour exists in the database
+                                                            DocumentReference hourRef = dayRef.collection("hour").document(Integer.toString(hour));
+                                                            hourRef.get().addOnCompleteListener(hourTask -> {
+                                                                if (hourTask.isSuccessful()) {
+                                                                    DocumentSnapshot hourDoc = hourTask.getResult();
+                                                                    if (!hourDoc.exists()) {
+                                                                        // create a new document for the hour
+                                                                        Map<String, Object> hourData = new HashMap<>();
+                                                                        dayRef.collection("hour").document(Integer.toString(hour)).set(hourData);
+                                                                    }
+                                                                    // add the user data to the database
+                                                                    Map<String, Object> userData = new HashMap<>();
+                                                                    userData.put("email", email);
+                                                                    userData.put("username", username);
+                                                                    userData.put("reason", reason);
+                                                                    assert email != null;
+                                                                    hourRef.set(userData);
+                                                                    //hourRef.collection("userDate").document(email).set(userData); <-- old user save data way
+
+
+                                                                } else {
+                                                                    Log.d(TAG, "Error getting hour document: ", hourTask.getException());
                                                                 }
-                                                                // add the user data to the database
-                                                                Map<String, Object> userData = new HashMap<>();
-                                                                userData.put("email", email);
-                                                                userData.put("username", username);
-                                                                userData.put("reason", reason);
-                                                                assert email != null;
-                                                                hourRef.set(userData);
-                                                                //hourRef.collection("userDate").document(email).set(userData); <-- old user save data way
-                                                            } else {
-                                                                Log.d(TAG, "Error getting hour document: ", hourTask.getException());
-                                                            }
-                                                        });
+                                                            });
+                                                        }
+
+                                                        //TODO: CHECK IF THIS WORKS!
+
+                                                        // create a calendar object with the specified date and time
+                                                        Calendar calendar = Calendar.getInstance();
+                                                        calendar.set(Calendar.YEAR, selectedYear);
+                                                        calendar.set(Calendar.MONTH, selectedMonth); // month starts from 0
+                                                        calendar.set(Calendar.DAY_OF_MONTH, selectedDayOfMonth);
+                                                        calendar.set(Calendar.HOUR_OF_DAY, 8);
+                                                        calendar.set(Calendar.MINUTE, 0);
+                                                        calendar.set(Calendar.SECOND, 0);
+
+
+                                                        // Create an Intent to start the AlarmReceiver class
+                                                        Intent intent = new Intent(ScheduleActivity.this, AlarmReceiver.class);
+
+                                                        // Use PendingIntent.getBroadcast() to create a pending intent
+                                                        PendingIntent pendingIntent;
+                                                        //pendingIntent = PendingIntent.getBroadcast(ScheduleActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                                                        // >_< thank you random post on so
+                                                        pendingIntent = PendingIntent.getBroadcast(ScheduleActivity.this, 0, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+
+
+                                                        // Create an instance of AlarmManager and set the alarm to trigger at the specified time every day
+                                                        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                                                        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+
+
+                                                        //closed the activity and sends the user back to main activity.
+                                                        startActivity(new Intent(ScheduleActivity.this, MainActivity.class));
+                                                        finish();
                                                     }
                                                 } else {
                                                     Log.d(TAG, "Error getting day document: ", dayTask.getException());
@@ -231,9 +277,17 @@ public class ScheduleActivity extends AppCompatActivity implements MyRecyclerVie
                     Log.d(TAG, "Error getting building document: ", task.getException());
                 }
             });
-            finish();
+            //finish();
         });
     }
+
+    /*private void scheduleNotification(long timeInMillis) {
+        //Intent intent = new Intent(this, MyNotificationReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeInMillis, pendingIntent);
+    }*/
 
     private void ChangeRecyclerViewItems(String building, String room) {
 
@@ -326,8 +380,6 @@ public class ScheduleActivity extends AppCompatActivity implements MyRecyclerVie
             Toast.makeText(this, "Current Occupier: " + selectedOccupiersUsernames.
                     get(occupiedHoursWithinDay.indexOf(position)), Toast.LENGTH_LONG).show();
             //view.setBackgroundColor(Color.RED);
-
-
 
 
             Log.d("Hour already occupied", "Hour:" + position);
