@@ -234,7 +234,7 @@ public class ScheduleActivity extends AppCompatActivity implements MyRecyclerVie
                                                         // create a calendar object with the specified date and time
                                                         Calendar calendar = Calendar.getInstance();
                                                         calendar.set(Calendar.YEAR, selectedYear);
-                                                        calendar.set(Calendar.MONTH, selectedMonth - 1); // month starts from 0
+                                                        calendar.set(Calendar.MONTH, selectedMonth ); // who told me I should do -1! I wasted like 2 hours on this code!
                                                         calendar.set(Calendar.DAY_OF_MONTH, selectedDayOfMonth);
                                                         calendar.set(Calendar.HOUR_OF_DAY, 8); //  this thing works in a 24 hours type, so 8 == 8 am,and 16 == 4pm
                                                         calendar.set(Calendar.MINUTE, 0);
@@ -243,24 +243,27 @@ public class ScheduleActivity extends AppCompatActivity implements MyRecyclerVie
 
                                                         Log.d("Notification", calendar.getCalendarType() + ":" + calendar.getTimeInMillis());
 
-
                                                         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
                                                         // Create an Intent to start the AlarmReceiver class
                                                         Intent intent = new Intent(ScheduleActivity.this, AlarmReceiver.class);
 
                                                         // Use PendingIntent.getBroadcast() to create a pending intent
-                                                        PendingIntent pendingIntent;
-                                                        //pendingIntent = PendingIntent.getBroadcast(ScheduleActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                                                        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                                                                this, 0, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
 
-                                                        pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT); // or 0
+                                                        // Create an instance of AlarmManager and set the alarm to trigger at the specified time
+                                                        // Set the type of the alarm to ELAPSED_REALTIME_WAKEUP if the specified time is in the future, otherwise set it to RTC_WAKEUP
+                                                        long triggerTime = calendar.getTimeInMillis();
+                                                        if (triggerTime > System.currentTimeMillis()) {
+                                                            alarmManager.setAlarmClock(new AlarmManager.AlarmClockInfo(triggerTime, null), pendingIntent);
+                                                        } else {
+                                                            alarmManager.setExact(AlarmManager.RTC_WAKEUP, triggerTime, pendingIntent);
+                                                        }
 
-
-                                                        // Create an instance of AlarmManager and set the alarm to trigger at the specified time once
-                                                        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
                                                         Toast.makeText(this, "Alarm set", Toast.LENGTH_LONG).show();
 
-
-                                                        //closed the activity and sends the user back to main activity.
+                                                        // Close the activity and send the user back to main activity
                                                         startActivity(new Intent(ScheduleActivity.this, MainActivity.class));
                                                         finish();
                                                     }
