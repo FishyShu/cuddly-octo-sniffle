@@ -9,15 +9,12 @@ import android.app.AlarmManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 //import android.content.SharedPreferences;
 import android.graphics.Color;
 //import android.os.Build;
-import android.os.Build;
 import android.os.Bundle;
 
-import android.service.autofill.CharSequenceTransformation;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -27,6 +24,7 @@ import android.widget.Toast;
 
 import com.example.cuddly_octo_sniffle.adapters.MyRecyclerViewAdapter;
 import com.example.cuddly_octo_sniffle.alarms.AlarmReceiver;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -50,6 +48,7 @@ public class ScheduleActivity extends AppCompatActivity implements MyRecyclerVie
     CalendarView cvSchedulePicker;
     TextView tvScheduleTitle;
 
+    FloatingActionButton fabScheduleGoBack;
     // change it to floating action button if needed
     Button btnScheduleFinish;
     MyRecyclerViewAdapter adapter;
@@ -289,6 +288,13 @@ public class ScheduleActivity extends AppCompatActivity implements MyRecyclerVie
             });
             //finish();
         });
+
+        fabScheduleGoBack = findViewById(R.id.fab_schedule_go_back);
+        fabScheduleGoBack.setOnClickListener(v -> {
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+        });
+
     }
 
     private void createNotificationChannel() {
