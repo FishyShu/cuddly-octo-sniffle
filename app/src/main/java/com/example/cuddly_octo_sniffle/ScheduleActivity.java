@@ -230,11 +230,14 @@ public class ScheduleActivity extends AppCompatActivity implements MyRecyclerVie
                                                         // create a calendar object with the specified date and time
                                                         Calendar calendar = Calendar.getInstance();
                                                         calendar.set(Calendar.YEAR, selectedYear);
-                                                        calendar.set(Calendar.MONTH, selectedMonth); // month starts from 0
+                                                        calendar.set(Calendar.MONTH, selectedMonth - 1 ); // month starts from 0
                                                         calendar.set(Calendar.DAY_OF_MONTH, selectedDayOfMonth);
-                                                        calendar.set(Calendar.HOUR_OF_DAY, 8);
-                                                        calendar.set(Calendar.MINUTE, 0);
+                                                        calendar.set(Calendar.HOUR_OF_DAY, 12); //  this thing works in a 24 hours type, so 8 == 8 am,and 16 == 4pm
+                                                        calendar.set(Calendar.MINUTE, 58);
                                                         calendar.set(Calendar.SECOND, 0);
+
+
+                                                        Log.d("Notification", calendar.getCalendarType() + ":" + calendar.getTimeInMillis());
 
 
                                                         // Create an Intent to start the AlarmReceiver class
@@ -245,12 +248,12 @@ public class ScheduleActivity extends AppCompatActivity implements MyRecyclerVie
                                                         //pendingIntent = PendingIntent.getBroadcast(ScheduleActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
                                                         // >_< thank you random post on so
-                                                        pendingIntent = PendingIntent.getBroadcast(ScheduleActivity.this, 0, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+                                                        pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
 
 
-                                                        // Create an instance of AlarmManager and set the alarm to trigger at the specified time every day
+                                                        // Create an instance of AlarmManager and set the alarm to trigger at the specified time once
                                                         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-                                                        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+                                                        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
 
 
                                                         //closed the activity and sends the user back to main activity.
