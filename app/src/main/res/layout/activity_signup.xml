@@ -4,16 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/image_2"
     tools:context=".SignupActivity">
 
     <TextView
         android:id="@+id/tv_signup_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Create Account"
+        android:text="Create Your Navigaid Account Today!"
+        android:textAlignment="center"
+        android:textColor="#454545"
+        android:textSize="22sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.076"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.036" />
@@ -28,9 +33,9 @@
         android:minHeight="48dp"
         app:layout_constraintBottom_toTopOf="@+id/ed_signup_email"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.507"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_signup_title"
-        app:layout_constraintVertical_bias="0.5" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_signup_title" />
 
     <EditText
         android:id="@+id/ed_signup_email"
@@ -81,6 +86,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="13"
+        android:background="@drawable/round_button"
+        app:backgroundTint="@null"
         android:text="Submit"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -93,10 +100,13 @@
         android:id="@+id/tv_signup_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Already have an account?"
+        android:text="  Already have an account?  "
+        android:minHeight="38dp"
+        android:gravity="center"
         android:textAlignment="center"
-        android:textStyle="normal"
         android:textColor="#267E7E"
+        android:textStyle="normal"
+        android:background="@drawable/background1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
