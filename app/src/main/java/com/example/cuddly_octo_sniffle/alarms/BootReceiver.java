@@ -14,6 +14,8 @@ import java.util.Calendar;
 public class BootReceiver extends BroadcastReceiver {
 
 
+    // TODO: CHECK
+
     private void recreateAlarms(Context context) {
         //TODO: CHECK IF THIS WORKS!
         // Create an Intent to start the AlarmReceiver class
