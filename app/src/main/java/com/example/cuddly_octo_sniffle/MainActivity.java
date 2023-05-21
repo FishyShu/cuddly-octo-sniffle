@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 //import androidx.core.app.NotificationCompat;
 //import androidx.core.app.NotificationManagerCompat;
 
-import android.content.DialogInterface;
+//import android.content.DialogInterface;
 import android.content.Intent;
 //import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -21,20 +21,20 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
+//import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
+//import com.google.android.gms.tasks.OnSuccessListener;
+//import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
+//import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
+//import com.google.firebase.firestore.QueryDocumentSnapshot;
+//import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+//import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -295,14 +295,26 @@ public class MainActivity extends AppCompatActivity {
     private void getCurrentSelection() {
         // Get the selected room
         // maybe make it less carrying...
+        // takes the current selection of the spinner, and sets selectedRoomObj as it.
         Object selectedRoomObj = spinner_room.getSelectedItem();
+
+        //checks if there was a room selected
         if (selectedRoomObj != null) {
+            // sets selectedRoom to selectedRoomObj from index 1. (404 -> 04)
             selectedRoom = selectedRoomObj.toString().trim().substring(1);
+            // gets String length fro selectedRoom
             int len = selectedRoom.length();
+            // sets i as counter
             int i = 0;
-            while (i < len && selectedRoom.charAt(i) == '0') {
+            // while i < length of selectedRoom, and selectedRoom at index i( starts at 0) equals '0'
+            // , add 1 to i
+            // at the start it's 0 <  2 && 0 == 0.
+
+            while (i < len -1 && selectedRoom.charAt(i) == '0') {
                 i++;
             }
+            // if i ( maximum is supposed to be about 1 is greater than 0, it will start from the index of i.
+            // in short: if i ==
             if (i > 0) {
                 selectedRoom = selectedRoom.substring(i);
             }
