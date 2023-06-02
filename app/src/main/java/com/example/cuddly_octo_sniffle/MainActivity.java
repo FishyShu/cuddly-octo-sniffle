@@ -323,8 +323,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void askingButton() {
         btn_bMain = (Button) findViewById(R.id.btn_bMain);
-        btn_bShop = (Button) findViewById(R.id.btn_bShop);
-        btn_bSports_hall = (Button) findViewById(R.id.btn_bSports_hall);
+        //btn_bShop = (Button) findViewById(R.id.btn_bShop);    REMOVED
+        //btn_bSports_hall = (Button) findViewById(R.id.btn_bSports_hall);  Removed
         btn_bMagal = (Button) findViewById(R.id.btn_bMagal);
         btn_bGoren = (Button) findViewById(R.id.btn_bGoren);
         btn_bMorag = (Button) findViewById(R.id.btn_bMorag);

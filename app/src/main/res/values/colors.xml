@@ -12,4 +12,13 @@
     <color name="blue">#03A9F4</color>
     <color name="colorPrimary">#009688</color>
     <color name="progress_bar">#03A9F4</color>
+    <!--Custom Colors Go Below Here-->
+    <color name="amaranth_1">#E63946</color>
+    <color name="amaranth_2">#90242C</color>
+    <color name="panache_8">#F1FAEE</color>
+
+    <color name="charlotte_91">#A8DADC</color>
+    <color name="glacier_43">#7AB5BD</color>
+    <color name="matisse_4">#326187</color> <!--was black before-->
+
 </resources>
