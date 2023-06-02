@@ -4,9 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background_gradient"
     android:orientation="horizontal"
     tools:context=".MainActivity">
 
+    <!--
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="0dp"
@@ -19,155 +21,204 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.5" />
-
-    <Button
-        android:id="@+id/btn_bMain"
-        android:layout_width="137dp"
-        android:layout_height="152dp"
-        android:text="Main Building"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.431" />
-
-    <Button
-        android:id="@+id/btn_bMagal"
-        android:layout_width="116dp"
-        android:layout_height="57dp"
-        android:text="Magal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.535"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.161" />
-
-    <Button
-        android:id="@+id/btn_bGoren"
-        android:layout_width="113dp"
-        android:layout_height="66dp"
-        android:text="Goren"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.08"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.219" />
-
-    <Button
-        android:id="@+id/btn_bMorag"
-        android:layout_width="73dp"
-        android:layout_height="101dp"
-        android:text="Morag"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.872"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.25" />
-
-    <Button
-        android:id="@+id/btn_bKatzir"
-        android:layout_width="62dp"
-        android:layout_height="126dp"
-        android:text="Katzir"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.002"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.413" />
-
-    <Button
-        android:id="@+id/btn_bAlomot"
-        android:layout_width="76dp"
-        android:layout_height="102dp"
-        android:text="Alomot"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.988"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.499" />
+-->
 
     <Button
         android:id="@+id/btn_bKama"
         android:layout_width="71dp"
         android:layout_height="101dp"
         android:text="Kama"
+        android:textAppearance="@style/Hidden"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.741"
+        app:layout_constraintHorizontal_bias="0.758"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.674" />
+        app:layout_constraintVertical_bias="0.582" />
+
+    <Button
+        android:id="@+id/btn_bMagal"
+        android:layout_width="116dp"
+        android:layout_height="57dp"
+        android:text="Magal"
+        android:textAppearance="@style/Hidden"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.528"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.089" />
+
+    <Button
+        android:id="@+id/btn_bGoren"
+        android:layout_width="113dp"
+        android:layout_height="66dp"
+        android:text="Goren"
+
+
+        android:textAppearance="@style/Hidden"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.073"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.145" />
+
+    <Button
+        android:id="@+id/btn_bMorag"
+        android:layout_width="73dp"
+        android:layout_height="101dp"
+        android:text="Morag"
+        android:textAppearance="@style/Hidden"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.866"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.173" />
+
+    <Button
+        android:id="@+id/btn_bKatzir"
+        android:layout_width="62dp"
+        android:layout_height="126dp"
+        android:text="Katzir"
+        android:textAppearance="@style/Hidden"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.045"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.347" />
+
+    <Button
+        android:id="@+id/btn_bMain"
+        android:layout_width="137dp"
+        android:layout_height="152dp"
+        android:hint="Main Building"
+        android:text="יב"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.485"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.347" />
+
+    <Button
+        android:id="@+id/btn_bAlomot"
+        android:layout_width="76dp"
+        android:layout_height="102dp"
+        android:text="Alomot"
+        android:textAppearance="@style/Hidden"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.952"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.375" />
 
     <Button
         android:id="@+id/btn_bOmarim"
         android:layout_width="107dp"
         android:layout_height="83dp"
         android:text="Omarim"
+        android:textAppearance="@style/Hidden"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.335"
+        app:layout_constraintHorizontal_bias="0.315"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.734" />
+        app:layout_constraintVertical_bias="0.635" />
 
     <Button
         android:id="@+id/btn_login_test01"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/black"
-        android:text="test"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="#B12587"
+        android:paddingStart="16dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="8dp"
+        android:text="Sign Out? XXXXXXXXX"
+        android:textAppearance="@style/Signout"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.074"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.042" />
-
-    <Spinner
-        android:id="@+id/spinner_room"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:contentDescription="Choose a room within the building"
-        android:minHeight="48dp"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner_building"
-        app:layout_constraintVertical_bias="0.382" />
-
-    <Spinner
-        android:id="@+id/spinner_building"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:contentDescription="Choose building"
-        android:minHeight="48dp"
-        android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.83" />
+        app:layout_constraintVertical_bias="0.0" />
 
-    <Button
-        android:id="@+id/btn_occupy"
-        android:layout_width="wrap_content"
+
+    <!--Had to set android:textAlignment="viewEnd" to fix the Hew 'n numbers problem-->
+    <Spinner
+        android:id="@+id/spinner_building"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/gradient_button"
-        android:text="Occupy"
+        android:background="@drawable/spinner_background"
+        android:contentDescription="Choose building"
+        android:dropDownWidth="match_parent"
+        android:dropDownVerticalOffset="8dp"
+        android:minHeight="48dp"
+        android:paddingStart="16dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="8dp"
+        android:popupBackground="@color/white"
+        android:spinnerMode="dropdown"
+        android:textAlignment="viewEnd"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.746" />
+
+
+    <Spinner
+        android:id="@+id/spinner_room"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/spinner_background"
+        android:contentDescription="Choose a room within the building"
+        android:dropDownWidth="match_parent"
+        android:dropDownVerticalOffset="8dp"
+        android:minHeight="48dp"
+        android:paddingStart="16dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="8dp"
+        android:popupBackground="@color/white"
+        android:spinnerMode="dropdown"
+        android:textAlignment="viewEnd"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_building"
+        app:layout_constraintVertical_bias="0.0" />
+
+
+    <Button
+        android:id="@+id/btn_occupy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/gradient_button"
+        android:paddingStart="16dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="8dp"
+        android:text="Occupy"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_room"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

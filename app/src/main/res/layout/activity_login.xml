@@ -4,9 +4,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@drawable/image_2"
+    android:background="@drawable/background_gradient_login"
     android:layout_height="match_parent"
     tools:context=".LoginActivity">
+
+    <!--android:background="@drawable/image_2"-->
 
 
 <!--    <fragment-->
@@ -73,7 +75,6 @@
         android:layout_height="wrap_content"
         android:background="@drawable/round_button"
         android:text="@string/login"
-        android:textColor="#37474F"
         app:backgroundTint="@null"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -89,10 +90,10 @@
         android:background="@drawable/background1"
         android:clickable="true"
         android:gravity="center"
-        android:minHeight="38dp"
+        android:minHeight="48dp"
+        android:padding="5dp"
         android:text="@string/don_t_have_an_account_sign_up_here"
         android:textAlignment="center"
-        android:textColor="#0382BC"
         android:textColorHighlight="#03A9F4"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"

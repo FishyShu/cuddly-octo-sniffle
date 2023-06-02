@@ -310,7 +310,7 @@ public class MainActivity extends AppCompatActivity {
             // , add 1 to i
             // at the start it's 0 <  2 && 0 == 0.
 
-            while (i < len -1 && selectedRoom.charAt(i) == '0') {
+            while (i < len - 1 && selectedRoom.charAt(i) == '0') {
                 i++;
             }
             // if i ( maximum is supposed to be about 1 is greater than 0, it will start from the index of i.

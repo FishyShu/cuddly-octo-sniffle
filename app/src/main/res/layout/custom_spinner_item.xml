@@ -10,3 +10,7 @@
     android:textAlignment="inherit"
     android:textColor="@color/black"
     android:textSize="16sp" />
+
+
+<!-- is this xml file being used or not?-->
+<!--No, TODO: Delete file after full check-->

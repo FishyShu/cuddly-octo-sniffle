@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:backgroundTint="#1A000000"
+    android:background="@drawable/background_gradient_login"
+    android:contentDescription="Here the user is able to schedule an hour within the picked date"
     tools:context=".ScheduleActivity">
 
     <CalendarView
@@ -14,9 +14,9 @@
         android:layout_height="wrap_content"
         android:background="#80FFFFFF"
         android:contentDescription="Calendar view for picking a date!"
+        android:padding="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -52,6 +52,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
         android:gravity="center_horizontal"
         android:padding="10dp"
         android:text="Hello Teacher\nPick a date you want to occupy"
@@ -59,28 +60,23 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/cv_schedule_picker"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.515"
         app:layout_constraintStart_toEndOf="@+id/fab_schedule_go_back"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.111" />
+        app:layout_constraintVertical_bias="0.0" />
 
 
     <TextView
         android:id="@+id/tv_hour_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:padding="10dp"
-        android:gravity="left"
+        android:gravity="left|center_vertical"
+        android:padding="16dp"
         android:text="Pick a date and select hours,\nthen click DONE to book the room."
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/rv_hour_picker"
         app:layout_constraintEnd_toStartOf="@+id/btn_schedule_finish"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cv_schedule_picker"
-        app:layout_constraintVertical_bias="0.1" />
+        app:layout_constraintTop_toBottomOf="@+id/cv_schedule_picker" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_hour_picker"
@@ -89,6 +85,7 @@
         android:background="#BFFFFFFF"
         android:gravity="center"
         android:orientation="horizontal"
+        android:padding="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -116,14 +113,15 @@
         android:id="@+id/fab_schedule_go_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:backgroundTint="@color/white"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="#FDF7DA"
         android:clickable="true"
         android:contentDescription="Go back to the map"
         android:padding="10dp"
         app:layout_constraintBottom_toTopOf="@+id/cv_schedule_picker"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.045"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
