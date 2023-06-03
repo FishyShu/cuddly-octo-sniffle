@@ -41,7 +41,7 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button btn_bMain, btn_bShop, btn_bSports_hall, btn_bMagal, btn_bGoren, btn_bMorag, btn_bKatzir,
+    Button btn_bMain, btn_bMagal, btn_bGoren, btn_bMorag, btn_bKatzir,
             btn_bAlomot, btn_bKama, btn_bOmarim, btn_occupy;
 
     Button btn_login_test01;
@@ -147,8 +147,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                Toast.makeText(MainActivity.this, "Changed item", Toast.LENGTH_SHORT).
-                        show();
+                 /* Toast.makeText(MainActivity.this, "Changed item", Toast.LENGTH_SHORT).
+                        show(); */
                 int buildingPosition = spinner_building.getSelectedItemPosition();
 
                 // TODO: Main building doesn't work, fix!
@@ -283,7 +283,8 @@ public class MainActivity extends AppCompatActivity {
         btn_occupy.setOnClickListener(v -> {
 
             //TODO: check if current user isTeacher, if not, set this button alpha to 0 and don't
-            Toast.makeText(this, " " + this.isTeacher, Toast.LENGTH_SHORT).show();
+
+            /* Toast.makeText(this, " " + this.isTeacher, Toast.LENGTH_SHORT).show(); */
             // allow current user to click this button.
             getCurrentSelection();
             // when pressed go to the activity of the schedule view to pick a date.
