@@ -30,13 +30,13 @@ public class SplashScreen extends AppCompatActivity {
     // SQLiteDatabase db
 
     // Firebase initialization :))))
-    FirebaseFirestore fireStore = FirebaseFirestore.getInstance();
+    // FirebaseFirestore fireStore = FirebaseFirestore.getInstance();
 
     // Shared preferences
     SharedPreferences sharedPreferences;
     boolean isNotificationShown = false;
 
-    ProgressBar progressBar1;
+    // ProgressBar progressBar1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

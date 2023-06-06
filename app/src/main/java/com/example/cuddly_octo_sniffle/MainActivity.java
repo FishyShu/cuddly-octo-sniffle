@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
     private String selectedBuilding;
     private String selectedRoom;
 
-    private boolean isTeacher = true; // if couldn't find user, shall be set to false
+    // private boolean isTeacher = true; // if couldn't find user, shall be set to false
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -254,15 +254,15 @@ public class MainActivity extends AppCompatActivity {
             // Set the adapter to the spinner
             spinner_building.setAdapter(adapter);
         });
-    } // spinnerthings end
+    }
 
 
-    private void populateSpinner(List<String> buildingsList) {
+    /*private void populateSpinner(List<String> buildingsList) {
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, buildingsList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_building.setAdapter(adapter);
-    }
+    }*/
 
 
     private void buttonGotClicked() {
