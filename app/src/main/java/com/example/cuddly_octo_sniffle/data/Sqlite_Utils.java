@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 
+// Not In use
 public class Sqlite_Utils {
     // the name of the database :)
     static final String DATABASE_NAME = "db_room_management";

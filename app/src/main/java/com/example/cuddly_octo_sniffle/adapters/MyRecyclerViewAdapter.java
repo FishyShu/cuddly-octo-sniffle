@@ -6,7 +6,7 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+//import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -31,9 +31,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         this.mOccupied = occupied;
     }
 
-    public List<Integer> getmOccupied() {
+   /* public List<Integer> getmOccupied() {
         return mOccupied;
-    }
+    }*/
 
     public void setmOccupied(List<Integer> mOccupied) {
         this.mOccupied = mOccupied;
@@ -87,9 +87,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     }
 
     // convenience method for getting data at click position
-    String getItem(int id) {
+   /* String getItem(int id) {
         return mData.get(id);
-    }
+    }*/
 
     // allows clicks events to be caught
     public void setClickListener(ItemClickListener itemClickListener) {
