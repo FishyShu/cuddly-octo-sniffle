@@ -12,7 +12,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
+//import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,10 +24,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class SplashScreen extends AppCompatActivity {
-    private final String CHANNEL_ID = "Notification";
+    private final String CHANNEL_ID = "Notification ";
 
 
-    // SQLiteDatabase db;
+    // SQLiteDatabase db
 
     // Firebase initialization :))))
     FirebaseFirestore fireStore = FirebaseFirestore.getInstance();

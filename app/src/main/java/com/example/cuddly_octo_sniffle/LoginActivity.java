@@ -46,6 +46,13 @@ public class LoginActivity extends AppCompatActivity {
             String password = edLoginPassword.getText().toString().trim();
 
 
+            // Check if email or password is empty
+            if (email.isEmpty() || password.isEmpty()) {
+                Toast.makeText(LoginActivity.this, "Email or password cannot be empty", Toast.LENGTH_SHORT).show();
+                return; // Exit the onClick listener
+            }
+
+
             firebaseAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(LoginActivity.this,
                             task -> {
